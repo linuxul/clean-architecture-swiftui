@@ -13,6 +13,8 @@ enum DeepLink: Equatable {
     case showCountryFlag(alpha3Code: Country.Code)
     
     init?(url: URL) {
+        log.debug("+")
+        
         guard
             let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
             components.host == "www.example.com",
@@ -38,10 +40,14 @@ struct RealDeepLinksHandler: DeepLinksHandler {
     private let container: DIContainer
     
     init(container: DIContainer) {
+        log.debug("+")
+        
         self.container = container
     }
     
     func open(deepLink: DeepLink) {
+        log.debug("+")
+        
         switch deepLink {
         case let .showCountryFlag(alpha3Code):
             let routeToDestination = {

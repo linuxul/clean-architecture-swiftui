@@ -27,6 +27,8 @@ extension Locale {
 extension Country.Details {
     
     init?(managedObject: CountryDetailsMO) {
+        log.debug("+")
+        
         guard let capital = managedObject.capital
             else { return nil }
         
@@ -48,6 +50,8 @@ extension Country.Details.Intermediate {
     @discardableResult
     func store(in context: NSManagedObjectContext,
                country: CountryMO, borders: [CountryMO]) -> CountryDetailsMO? {
+        log.debug("+")
+        
         guard let details = CountryDetailsMO.insertNew(in: context)
             else { return nil }
         details.capital = capital
@@ -62,6 +66,8 @@ extension Country.Details.Intermediate {
 extension Country.Currency {
     
     init?(managedObject: CurrencyMO) {
+        log.debug("+")
+        
         guard let code = managedObject.code,
             let name = managedObject.name
             else { return nil }
@@ -70,6 +76,8 @@ extension Country.Currency {
     
     @discardableResult
     func store(in context: NSManagedObjectContext) -> CurrencyMO? {
+        log.debug("+")
+        
         guard let currency = CurrencyMO.insertNew(in: context)
             else { return nil }
         currency.code = code
@@ -83,6 +91,8 @@ extension Country {
     
     @discardableResult
     func store(in context: NSManagedObjectContext) -> CountryMO? {
+        log.debug("+")
+        
         guard let country = CountryMO.insertNew(in: context)
             else { return nil }
         country.name = name
@@ -103,6 +113,8 @@ extension Country {
     }
     
     init?(managedObject: CountryMO) {
+        log.debug("+")
+        
         guard let nameTranslations = managedObject.nameTranslations
             else { return nil }
         let translations: [String: String?] = nameTranslations

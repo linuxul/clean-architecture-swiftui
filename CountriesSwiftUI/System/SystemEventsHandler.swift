@@ -30,6 +30,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
          deepLinksHandler: DeepLinksHandler,
          pushNotificationsHandler: PushNotificationsHandler,
          pushTokenWebRepository: PushTokenWebRepository) {
+        log.debug("+")
         
         self.container = container
         self.deepLinksHandler = deepLinksHandler
@@ -41,6 +42,8 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     }
      
     private func installKeyboardHeightObserver() {
+        log.debug("+")
+        
         let appState = container.appState
         NotificationCenter.default.keyboardHeightPublisher
             .sink { [appState] height in
@@ -50,6 +53,8 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     }
      
     private func installPushNotificationsSubscriberOnLaunch() {
+        log.debug("+")
+        
         weak var permissions = container.interactors.userPermissionsInteractor
         container.appState
             .updates(for: AppState.permissionKeyPath(for: .pushNotifications))
@@ -65,25 +70,35 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     }
     
     func sceneOpenURLContexts(_ urlContexts: Set<UIOpenURLContext>) {
+        log.debug("+")
+        
         guard let url = urlContexts.first?.url else { return }
         handle(url: url)
     }
     
     private func handle(url: URL) {
+        log.debug("+")
+        
         guard let deepLink = DeepLink(url: url) else { return }
         deepLinksHandler.open(deepLink: deepLink)
     }
     
     func sceneDidBecomeActive() {
+        log.debug("+")
+        
         container.appState[\.system.isActive] = true
         container.interactors.userPermissionsInteractor.resolveStatus(for: .pushNotifications)
     }
     
     func sceneWillResignActive() {
+        log.debug("+")
+        
         container.appState[\.system.isActive] = false
     }
     
     func handlePushRegistration(result: Result<Data, Error>) {
+        log.debug("+")
+        
         if let pushToken = try? result.get() {
             pushTokenWebRepository
                 .register(devicePushToken: pushToken)
@@ -94,6 +109,8 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     
     func appDidReceiveRemoteNotification(payload: NotificationPayload,
                                          fetchCompletion: @escaping FetchCompletion) {
+        log.debug("+")
+        
         container.interactors.countriesInteractor
             .refreshCountriesList()
             .sinkToResult { result in
@@ -106,6 +123,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
 // MARK: - Notifications
 
 private extension NotificationCenter {
+    
     var keyboardHeightPublisher: AnyPublisher<CGFloat, Never> {
         let willShow = publisher(for: UIApplication.keyboardWillShowNotification)
             .map { $0.keyboardHeight }

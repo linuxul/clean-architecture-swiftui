@@ -25,6 +25,8 @@ extension Store {
     }
     
     func bulkUpdate(_ update: (inout Output) -> Void) {
+        log.debug("+")
+        
         var value = self.value
         update(&value)
         self.value = value
@@ -32,6 +34,8 @@ extension Store {
     
     func updates<Value>(for keyPath: KeyPath<Output, Value>) ->
         AnyPublisher<Value, Failure> where Value: Equatable {
+        log.debug("+")
+            
         return map(keyPath).removeDuplicates().eraseToAnyPublisher()
     }
 }
@@ -41,6 +45,8 @@ extension Store {
 extension Binding where Value: Equatable {
     func dispatched<State>(to state: Store<State>,
                            _ keyPath: WritableKeyPath<State, Value>) -> Self {
+        log.debug("+")
+        
         return onSet { state[keyPath] = $0 }
     }
 }
@@ -49,6 +55,8 @@ extension Binding where Value: Equatable {
     typealias ValueClosure = (Value) -> Void
     
     func onSet(_ perform: @escaping ValueClosure) -> Self {
+        log.debug("+")
+        
         return .init(get: { () -> Value in
             self.wrappedValue
         }, set: { value in

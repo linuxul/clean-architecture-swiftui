@@ -35,6 +35,8 @@ extension APIError: LocalizedError {
 
 extension APICall {
     func urlRequest(baseURL: String) throws -> URLRequest {
+        log.debug("+")
+        
         guard let url = URL(string: baseURL + path) else {
             throw APIError.invalidURL
         }

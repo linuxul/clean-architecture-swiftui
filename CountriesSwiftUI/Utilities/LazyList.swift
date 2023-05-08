@@ -18,12 +18,16 @@ struct LazyList<T> {
     let count: Int
     
     init(count: Int, useCache: Bool, _ access: @escaping Access) {
+        log.debug("+")
+        
         self.count = count
         self.useCache = useCache
         self.access = access
     }
     
     func element(at index: Int) throws -> T {
+        log.debug("+")
+        
         guard useCache else {
             return try get(at: index)
         }
@@ -38,6 +42,8 @@ struct LazyList<T> {
     }
     
     private func get(at index: Int) throws -> T {
+        log.debug("+")
+        
         guard let element = try access(index) else {
             throw Error.elementIsNil(index: index)
         }
@@ -57,6 +63,8 @@ private extension LazyList {
         private var elements = [Int: T]()
         
         func sync(_ access: (inout [Int: T]) throws -> T) throws -> T {
+            log.debug("+")
+            
             guard Thread.isMainThread else {
                 var result: T!
                 try DispatchQueue.main.sync {
@@ -92,6 +100,8 @@ extension LazyList: Sequence {
         }
         
         mutating func next() -> Element? {
+            log.debug("+")
+            
             index += 1
             guard index < list.count else {
                 return nil
@@ -105,7 +115,9 @@ extension LazyList: Sequence {
     }
 
     func makeIterator() -> Iterator {
-        .init(list: self)
+        log.debug("+")
+        
+        return .init(list: self)
     }
 
     var underestimatedCount: Int { count }
@@ -118,6 +130,8 @@ extension LazyList: RandomAccessCollection {
     var endIndex: Index { count }
     
     subscript(index: Index) -> Iterator.Element {
+        log.debug("+")
+        
         do {
             return try element(at: index)
         } catch let error {
@@ -126,16 +140,22 @@ extension LazyList: RandomAccessCollection {
     }
 
     public func index(after index: Index) -> Index {
+        log.debug("+")
+        
         return index + 1
     }
 
     public func index(before index: Index) -> Index {
+        log.debug("+")
+        
         return index - 1
     }
 }
 
 extension LazyList: Equatable where T: Equatable {
     static func == (lhs: LazyList<T>, rhs: LazyList<T>) -> Bool {
+        log.debug("+")
+        
         guard lhs.count == rhs.count else { return false }
         return zip(lhs, rhs).first(where: { $0 != $1 }) == nil
     }

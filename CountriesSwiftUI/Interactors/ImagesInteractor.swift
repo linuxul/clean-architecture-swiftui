@@ -19,10 +19,14 @@ struct RealImagesInteractor: ImagesInteractor {
     let webRepository: ImageWebRepository
     
     init(webRepository: ImageWebRepository) {
+        log.debug("+")
+        
         self.webRepository = webRepository
     }
     
     func load(image: LoadableSubject<UIImage>, url: URL?) {
+        log.debug("+")
+        
         guard let url = url else {
             image.wrappedValue = .notRequested; return
         }
@@ -38,5 +42,7 @@ struct RealImagesInteractor: ImagesInteractor {
 
 struct StubImagesInteractor: ImagesInteractor {
     func load(image: LoadableSubject<UIImage>, url: URL?) {
+        log.debug("+")
+        
     }
 }

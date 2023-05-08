@@ -35,11 +35,15 @@ final class RealUserPermissionsInteractor: UserPermissionsInteractor {
     private let openAppSettings: () -> Void
     
     init(appState: Store<AppState>, openAppSettings: @escaping () -> Void) {
+        log.debug("+")
+        
         self.appState = appState
         self.openAppSettings = openAppSettings
     }
     
     func resolveStatus(for permission: Permission) {
+        log.debug("+")
+        
         let keyPath = AppState.permissionKeyPath(for: permission)
         let currentStatus = appState[keyPath]
         guard currentStatus == .unknown else { return }
@@ -53,6 +57,8 @@ final class RealUserPermissionsInteractor: UserPermissionsInteractor {
     }
     
     func request(permission: Permission) {
+        log.debug("+")
+        
         let keyPath = AppState.permissionKeyPath(for: permission)
         let currentStatus = appState[keyPath]
         guard currentStatus != .denied else {
@@ -82,6 +88,8 @@ extension UNAuthorizationStatus {
 private extension RealUserPermissionsInteractor {
     
     func pushNotificationsPermissionStatus(_ resolve: @escaping (Permission.Status) -> Void) {
+        log.debug("+")
+        
         let center = UNUserNotificationCenter.current()
         center.getNotificationSettings { settings in
             DispatchQueue.main.async {
@@ -91,6 +99,8 @@ private extension RealUserPermissionsInteractor {
     }
     
     func requestPushNotificationsPermission() {
+        log.debug("+")
+        
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound]) { (isGranted, error) in
             DispatchQueue.main.async {
@@ -105,7 +115,11 @@ private extension RealUserPermissionsInteractor {
 final class StubUserPermissionsInteractor: UserPermissionsInteractor {
     
     func resolveStatus(for permission: Permission) {
+        log.debug("+")
+        
     }
     func request(permission: Permission) {
+        log.debug("+")
+        
     }
 }

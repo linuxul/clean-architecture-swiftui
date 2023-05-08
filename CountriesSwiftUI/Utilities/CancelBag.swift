@@ -12,6 +12,7 @@ final class CancelBag {
     fileprivate(set) var subscriptions = Set<AnyCancellable>()
     
     func cancel() {
+        log.debug("+")
         subscriptions.removeAll()
     }
 }
@@ -19,6 +20,7 @@ final class CancelBag {
 extension AnyCancellable {
     
     func store(in cancelBag: CancelBag) {
+        log.debug("+")
         cancelBag.subscriptions.insert(self)
     }
 }

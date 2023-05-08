@@ -17,11 +17,15 @@ struct DIContainer: EnvironmentKey {
     let interactors: Interactors
     
     init(appState: Store<AppState>, interactors: Interactors) {
+        log.debug("+")
+        
         self.appState = appState
         self.interactors = interactors
     }
     
     init(appState: AppState, interactors: Interactors) {
+        log.debug("+")
+        
         self.init(appState: Store<AppState>(appState), interactors: interactors)
     }
     
@@ -51,12 +55,16 @@ extension View {
     
     func inject(_ appState: AppState,
                 _ interactors: DIContainer.Interactors) -> some View {
+        log.debug("+")
+        
         let container = DIContainer(appState: .init(appState),
                                     interactors: interactors)
         return inject(container)
     }
     
     func inject(_ container: DIContainer) -> some View {
+        log.debug("+")
+        
         return self
             .modifier(RootViewAppearance())
             .environment(\.injected, container)

@@ -47,6 +47,8 @@ extension AppState {
     }
     
     static func permissionKeyPath(for permission: Permission) -> WritableKeyPath<AppState, Permission.Status> {
+        log.debug("+")
+        
         let pathToPermissions = \AppState.permissions
         switch permission {
         case .pushNotifications:

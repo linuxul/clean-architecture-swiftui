@@ -36,10 +36,12 @@ enum Loadable<T> {
 extension Loadable {
     
     mutating func setIsLoading(cancelBag: CancelBag) {
+        log.debug("+")
         self = .isLoading(last: value, cancelBag: cancelBag)
     }
     
     mutating func cancelLoading() {
+        log.debug("+")
         switch self {
         case let .isLoading(last, cancelBag):
             cancelBag.cancel()
@@ -57,6 +59,7 @@ extension Loadable {
     }
     
     func map<V>(_ transform: (T) throws -> V) -> Loadable<V> {
+        log.debug("+")
         do {
             switch self {
             case .notRequested: return .notRequested
@@ -86,6 +89,8 @@ struct ValueIsMissingError: Error {
 
 extension Optional: SomeOptional {
     func unwrap() throws -> Wrapped {
+        log.debug("+")
+        
         switch self {
         case let .some(value): return value
         case .none: throw ValueIsMissingError()
@@ -95,12 +100,15 @@ extension Optional: SomeOptional {
 
 extension Loadable where T: SomeOptional {
     func unwrap() -> Loadable<T.Wrapped> {
-        map { try $0.unwrap() }
+        log.debug("+")
+        
+        return map { try $0.unwrap() }
     }
 }
 
 extension Loadable: Equatable where T: Equatable {
     static func == (lhs: Loadable<T>, rhs: Loadable<T>) -> Bool {
+        log.debug("+")
         switch (lhs, rhs) {
         case (.notRequested, .notRequested): return true
         case let (.isLoading(lhsV, _), .isLoading(rhsV, _)): return lhsV == rhsV

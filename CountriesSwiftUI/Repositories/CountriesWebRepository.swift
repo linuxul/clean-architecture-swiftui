@@ -21,15 +21,21 @@ struct RealCountriesWebRepository: CountriesWebRepository {
     let bgQueue = DispatchQueue(label: "bg_parse_queue")
     
     init(session: URLSession, baseURL: String) {
+        log.debug("+")
+        
         self.session = session
         self.baseURL = baseURL
     }
     
     func loadCountries() -> AnyPublisher<[Country], Error> {
+        log.debug("+")
+        
         return call(endpoint: API.allCountries)
     }
 
     func loadCountryDetails(country: Country) -> AnyPublisher<Country.Details.Intermediate, Error> {
+        log.debug("+")
+        
         let request: AnyPublisher<[Country.Details.Intermediate], Error> = call(endpoint: API.countryDetails(country))
         return request
             .tryMap { array -> Country.Details.Intermediate in

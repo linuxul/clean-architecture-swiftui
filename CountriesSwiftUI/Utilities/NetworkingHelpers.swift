@@ -12,6 +12,8 @@ import Foundation
 
 extension Just where Output == Void {
     static func withErrorType<E>(_ errorType: E.Type) -> AnyPublisher<Void, E> {
+        log.debug("+")
+        
         return withErrorType((), E.self)
     }
 }
@@ -19,6 +21,8 @@ extension Just where Output == Void {
 extension Just {
     static func withErrorType<E>(_ value: Output, _ errorType: E.Type
     ) -> AnyPublisher<Output, E> {
+        log.debug("+")
+        
         return Just(value)
             .setFailureType(to: E.self)
             .eraseToAnyPublisher()
@@ -27,6 +31,8 @@ extension Just {
 
 extension Publisher {
     func sinkToResult(_ result: @escaping (Result<Output, Failure>) -> Void) -> AnyCancellable {
+        log.debug("+")
+        
         return sink(receiveCompletion: { completion in
             switch completion {
             case let .failure(error):
@@ -39,6 +45,8 @@ extension Publisher {
     }
     
     func sinkToLoadable(_ completion: @escaping (Loadable<Output>) -> Void) -> AnyCancellable {
+        log.debug("+")
+        
         return sink(receiveCompletion: { subscriptionCompletion in
             if let error = subscriptionCompletion.error {
                 completion(.failed(error))
@@ -49,6 +57,7 @@ extension Publisher {
     }
     
     func extractUnderlyingError() -> Publishers.MapError<Self, Failure> {
+        
         mapError {
             ($0.underlyingError as? Failure) ?? $0
         }
@@ -62,6 +71,8 @@ extension Publisher {
     /// - Returns: A publisher that optionally delays delivery of elements to the downstream receiver.
     
     func ensureTimeSpan(_ interval: TimeInterval) -> AnyPublisher<Output, Failure> {
+        log.debug("+")
+        
         let timer = Just<Void>(())
             .delay(for: .seconds(interval), scheduler: RunLoop.main)
             .setFailureType(to: Failure.self)

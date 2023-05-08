@@ -20,11 +20,15 @@ struct RealImageWebRepository: ImageWebRepository {
     let bgQueue = DispatchQueue(label: "bg_parse_queue")
     
     init(session: URLSession, baseURL: String) {
+        log.debug("+")
+        
         self.session = session
         self.baseURL = baseURL
     }
     
     func load(imageURL: URL) -> AnyPublisher<UIImage, Error> {
+        log.debug("+")
+        
         return download(rawImageURL: imageURL)
             .subscribe(on: bgQueue)
             .receive(on: DispatchQueue.main)
@@ -33,6 +37,8 @@ struct RealImageWebRepository: ImageWebRepository {
     }
     
     private func download(rawImageURL: URL) -> AnyPublisher<UIImage, Error> {
+        log.debug("+")
+        
         let urlRequest = URLRequest(url: rawImageURL)
         return session.dataTaskPublisher(for: urlRequest)
             .requestData()

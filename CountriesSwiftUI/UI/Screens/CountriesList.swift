@@ -25,6 +25,8 @@ struct CountriesList: View {
     let inspection = Inspection<Self>()
     
     init(countries: Loadable<LazyList<Country>> = .notRequested) {
+        log.debug("+")
+        
         self._countries = .init(initialValue: countries)
     }
     
@@ -85,12 +87,16 @@ private extension CountriesList {
         let container: Container
         
         func resolve(in environment: EnvironmentValues) -> some ViewModifier {
+            log.debug("+")
+            
             container.locale = environment.locale
             return DummyViewModifier()
         }
         
         private struct DummyViewModifier: ViewModifier {
+            
             func body(content: Content) -> some View {
+                
                 // Cannot return just `content` because SwiftUI
                 // flattens modifiers that do nothing to the `content`
                 content.onAppear()
@@ -123,6 +129,8 @@ private extension CountriesList {
     }
     
     func loadingView(_ previouslyLoaded: LazyList<Country>?) -> some View {
+        log.debug("+")
+        
         if let countries = previouslyLoaded {
             return AnyView(loadedView(countries, showSearch: true, showLoading: true))
         } else {
@@ -131,7 +139,9 @@ private extension CountriesList {
     }
     
     func failedView(_ error: Error) -> some View {
-        ErrorView(error: error, retryAction: {
+        log.debug("+")
+        
+        return ErrorView(error: error, retryAction: {
             self.reloadCountries()
         })
     }
@@ -141,7 +151,9 @@ private extension CountriesList {
 
 private extension CountriesList {
     func loadedView(_ countries: LazyList<Country>, showSearch: Bool, showLoading: Bool) -> some View {
-        VStack {
+        log.debug("+")
+        
+        return VStack {
             if showSearch {
                 SearchBar(text: $countriesSearch.searchText
                     .onSet { _ in
@@ -165,7 +177,9 @@ private extension CountriesList {
     }
     
     func detailsView(country: Country) -> some View {
-        CountryDetails(country: country)
+        log.debug("+")
+        
+        return CountryDetails(country: country)
     }
     
     var bottomInset: CGFloat {
@@ -199,15 +213,21 @@ extension CountriesList {
 private extension CountriesList {
     
     var routingUpdate: AnyPublisher<Routing, Never> {
-        injected.appState.updates(for: \.routing.countriesList)
+        log.debug("+")
+        
+        return injected.appState.updates(for: \.routing.countriesList)
     }
     
     var keyboardHeightUpdate: AnyPublisher<CGFloat, Never> {
-        injected.appState.updates(for: \.system.keyboardHeight)
+        log.debug("+")
+        
+        return injected.appState.updates(for: \.system.keyboardHeight)
     }
     
     var canRequestPushPermissionUpdate: AnyPublisher<Bool, Never> {
-        injected.appState.updates(for: AppState.permissionKeyPath(for: .pushNotifications))
+        log.debug("+")
+        
+        return injected.appState.updates(for: AppState.permissionKeyPath(for: .pushNotifications))
             .map { $0 == .notRequested || $0 == .denied }
             .eraseToAnyPublisher()
     }

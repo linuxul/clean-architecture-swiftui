@@ -17,6 +17,8 @@ struct ImageView: View {
     let inspection = Inspection<Self>()
     
     init(imageURL: URL, image: Loadable<UIImage> = .notRequested) {
+        log.debug("+")
+        
         self.imageURL = imageURL
         self._image = .init(initialValue: image)
     }

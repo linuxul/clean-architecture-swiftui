@@ -25,6 +25,8 @@ struct RealCountriesDBRepository: CountriesDBRepository {
     let persistentStore: PersistentStore
     
     func hasLoadedCountries() -> AnyPublisher<Bool, Error> {
+        log.debug("+")
+        
         let fetchRequest = CountryMO.justOneCountry()
         return persistentStore
             .count(fetchRequest)
@@ -33,6 +35,8 @@ struct RealCountriesDBRepository: CountriesDBRepository {
     }
     
     func store(countries: [Country]) -> AnyPublisher<Void, Error> {
+        log.debug("+")
+        
         return persistentStore
             .update { context in
                 countries.forEach {
@@ -42,6 +46,8 @@ struct RealCountriesDBRepository: CountriesDBRepository {
     }
     
     func countries(search: String, locale: Locale) -> AnyPublisher<LazyList<Country>, Error> {
+        log.debug("+")
+        
         let fetchRequest = CountryMO.countries(search: search, locale: locale)
         return persistentStore
             .fetch(fetchRequest) {
@@ -52,6 +58,8 @@ struct RealCountriesDBRepository: CountriesDBRepository {
     
     func store(countryDetails: Country.Details.Intermediate,
                for country: Country) -> AnyPublisher<Country.Details?, Error> {
+        log.debug("+")
+        
         return persistentStore
             .update { context in
                 let parentRequest = CountryMO.countries(alpha3codes: [country.alpha3Code])
@@ -65,6 +73,8 @@ struct RealCountriesDBRepository: CountriesDBRepository {
     }
     
     func countryDetails(country: Country) -> AnyPublisher<Country.Details?, Error> {
+        log.debug("+")
+        
         let fetchRequest = CountryDetailsMO.details(country: country)
         return persistentStore
             .fetch(fetchRequest) {
@@ -80,6 +90,8 @@ struct RealCountriesDBRepository: CountriesDBRepository {
 extension CountryMO {
     
     static func justOneCountry() -> NSFetchRequest<CountryMO> {
+        log.debug("+")
+        
         let request = newFetchRequest()
         request.predicate = NSPredicate(format: "alpha3code == %@", "USA")
         request.fetchLimit = 1
@@ -87,6 +99,8 @@ extension CountryMO {
     }
     
     static func countries(search: String, locale: Locale) -> NSFetchRequest<CountryMO> {
+        log.debug("+")
+        
         let request = newFetchRequest()
         if search.count == 0 {
             request.predicate = NSPredicate(value: true)
@@ -103,6 +117,8 @@ extension CountryMO {
     }
     
     static func countries(alpha3codes: [String]) -> NSFetchRequest<CountryMO> {
+        log.debug("+")
+        
         let request = newFetchRequest()
         request.predicate = NSPredicate(format: "alpha3code in %@", alpha3codes)
         request.fetchLimit = alpha3codes.count
@@ -112,6 +128,8 @@ extension CountryMO {
 
 extension CountryDetailsMO {
     static func details(country: Country) -> NSFetchRequest<CountryDetailsMO> {
+        log.debug("+")
+        
         let request = newFetchRequest()
         request.predicate = NSPredicate(format: "country.alpha3code == %@", country.alpha3Code)
         request.fetchLimit = 1

@@ -18,6 +18,7 @@ struct RootViewAppearance: ViewModifier {
     internal let inspection = Inspection<Self>()
     
     func body(content: Content) -> some View {
+        
         content
             .blur(radius: isActive ? 0 : 10)
             .ignoresSafeArea()

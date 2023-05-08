@@ -16,6 +16,8 @@ struct ContentView: View {
     private let isRunningTests: Bool
     
     init(container: DIContainer, isRunningTests: Bool = ProcessInfo.processInfo.isRunningTests) {
+        log.debug("+")
+        
         self.container = container
         self.isRunningTests = isRunningTests
     }
@@ -33,6 +35,8 @@ struct ContentView: View {
     }
     
     var onChangeHandler: (EnvironmentValues.Diff) -> Void {
+        log.debug("+")
+        
         return { diff in
             if !diff.isDisjoint(with: [.locale, .sizeCategory]) {
                 self.container.appState[\.routing] = AppState.ViewRouting()

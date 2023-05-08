@@ -15,6 +15,8 @@ class RealPushNotificationsHandler: NSObject, PushNotificationsHandler {
     private let deepLinksHandler: DeepLinksHandler
     
     init(deepLinksHandler: DeepLinksHandler) {
+        log.debug("+")
+        
         self.deepLinksHandler = deepLinksHandler
         super.init()
         UNUserNotificationCenter.current().delegate = self
@@ -29,17 +31,23 @@ extension RealPushNotificationsHandler: UNUserNotificationCenterDelegate {
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler:
         @escaping (UNNotificationPresentationOptions) -> Void) {
+        log.debug("+")
+        
         completionHandler([.list, .banner, .sound])
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
+        log.debug("+")
+        
         let userInfo = response.notification.request.content.userInfo
         handleNotification(userInfo: userInfo, completionHandler: completionHandler)
     }
     
     func handleNotification(userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
+        log.debug("+")
+        
         guard let payload = userInfo["aps"] as? NotificationPayload,
             let countryCode = payload["country"] as? Country.Code else {
             completionHandler()

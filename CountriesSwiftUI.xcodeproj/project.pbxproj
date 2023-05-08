@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		52333A932654463B0034072B /* UIOpenURLContext_Init.m in Sources */ = {isa = PBXBuildFile; fileRef = 52333A922654463B0034072B /* UIOpenURLContext_Init.m */; };
+		7EBF9FAF3C26790951085B6F /* Pods_CountriesSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 96EE25FA31FC4A31F8EEDE57 /* Pods_CountriesSwiftUI.framework */; };
 		F60829712369CE0100DB292E /* RequestMocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60829702369CE0100DB292E /* RequestMocking.swift */; };
 		F60829732369CE5300DB292E /* MockedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60829722369CE5300DB292E /* MockedResponse.swift */; };
 		F60829762369D58A00DB292E /* CountriesWebRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60829752369D58A00DB292E /* CountriesWebRepositoryTests.swift */; };
@@ -106,6 +107,9 @@
 		52333A90265445F30034072B /* UnitTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UnitTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		52333A91265445F30034072B /* UIOpenURLContext_Init.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIOpenURLContext_Init.h; sourceTree = "<group>"; };
 		52333A922654463B0034072B /* UIOpenURLContext_Init.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIOpenURLContext_Init.m; sourceTree = "<group>"; };
+		55DE0FFC768382186AF1BBD8 /* Pods-CountriesSwiftUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountriesSwiftUI.debug.xcconfig"; path = "Target Support Files/Pods-CountriesSwiftUI/Pods-CountriesSwiftUI.debug.xcconfig"; sourceTree = "<group>"; };
+		96EE25FA31FC4A31F8EEDE57 /* Pods_CountriesSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CountriesSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E6817B5791190AFBAB7F53DF /* Pods-CountriesSwiftUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountriesSwiftUI.release.xcconfig"; path = "Target Support Files/Pods-CountriesSwiftUI/Pods-CountriesSwiftUI.release.xcconfig"; sourceTree = "<group>"; };
 		F60829702369CE0100DB292E /* RequestMocking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestMocking.swift; sourceTree = "<group>"; };
 		F60829722369CE5300DB292E /* MockedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockedResponse.swift; sourceTree = "<group>"; };
 		F60829752369D58A00DB292E /* CountriesWebRepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesWebRepositoryTests.swift; sourceTree = "<group>"; };
@@ -202,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6E7ACE223F5D1EC00AB48AB /* EnvironmentOverrides in Frameworks */,
+				7EBF9FAF3C26790951085B6F /* Pods_CountriesSwiftUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,6 +221,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E3335E8D465831B5F6451A7D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				96EE25FA31FC4A31F8EEDE57 /* Pods_CountriesSwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E8464F56465C5F95328D53DA /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				55DE0FFC768382186AF1BBD8 /* Pods-CountriesSwiftUI.debug.xcconfig */,
+				E6817B5791190AFBAB7F53DF /* Pods-CountriesSwiftUI.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		F60829742369D55700DB292E /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,6 +305,8 @@
 				F64495E32360D66400C9BB1F /* CountriesSwiftUI */,
 				F67833D32369CCBD0065272F /* UnitTests */,
 				F64495E22360D66400C9BB1F /* Products */,
+				E8464F56465C5F95328D53DA /* Pods */,
+				E3335E8D465831B5F6451A7D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -501,10 +526,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F64495F52360D66700C9BB1F /* Build configuration list for PBXNativeTarget "CountriesSwiftUI" */;
 			buildPhases = (
+				8731FA08E440B475BF0CAAF8 /* [CP] Check Pods Manifest.lock */,
 				F62DF39A237AFE9400CE1234 /* Run swiftlint */,
 				F64495DD2360D66400C9BB1F /* Sources */,
 				F64495DE2360D66400C9BB1F /* Frameworks */,
 				F64495DF2360D66400C9BB1F /* Resources */,
+				B437F8F64CBBA9F5A4F4D457 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -607,6 +634,45 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		8731FA08E440B475BF0CAAF8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CountriesSwiftUI-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B437F8F64CBBA9F5A4F4D457 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CountriesSwiftUI/Pods-CountriesSwiftUI-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CountriesSwiftUI/Pods-CountriesSwiftUI-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CountriesSwiftUI/Pods-CountriesSwiftUI-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		F62DF39A237AFE9400CE1234 /* Run swiftlint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -872,6 +938,7 @@
 		};
 		F64495F62360D66700C9BB1F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55DE0FFC768382186AF1BBD8 /* Pods-CountriesSwiftUI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CountriesSwiftUI/Resources/CountriesSwiftUI.entitlements;
@@ -879,7 +946,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CountriesSwiftUI/Resources\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 726X72M6TU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CountriesSwiftUI/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -889,7 +956,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.countries.swiftui;
+				PRODUCT_BUNDLE_IDENTIFIER = com.eflash.demo.swiftui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
@@ -899,6 +966,7 @@
 		};
 		F64495F72360D66700C9BB1F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E6817B5791190AFBAB7F53DF /* Pods-CountriesSwiftUI.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = CountriesSwiftUI/Resources/CountriesSwiftUI.entitlements;
@@ -906,7 +974,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CountriesSwiftUI/Resources\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 726X72M6TU;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CountriesSwiftUI/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -916,7 +984,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.countries.swiftui;
+				PRODUCT_BUNDLE_IDENTIFIER = com.eflash.demo.swiftui;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
@@ -931,7 +999,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 726X72M6TU;
 				INFOPLIST_FILE = UnitTests/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -939,7 +1007,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.countries.swiftui.UnitTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.efalsh.demo.swiftui.UnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "UnitTests/System/UnitTests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -956,7 +1024,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 726X72M6TU;
 				INFOPLIST_FILE = UnitTests/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -964,7 +1032,7 @@
 					"@loader_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.countries.swiftui.UnitTests;
+				PRODUCT_BUNDLE_IDENTIFIER = com.efalsh.demo.swiftui.UnitTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "UnitTests/System/UnitTests-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;

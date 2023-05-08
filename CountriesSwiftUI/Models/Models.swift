@@ -26,6 +26,8 @@ struct Country: Codable, Equatable {
     }
     
     init(name: String, translations: [String: String?], population: Int, flag: URL?, alpha3Code: Code) {
+        log.debug("+")
+        
         self.name = name
         self.translations = translations
         self.population = population
@@ -34,6 +36,8 @@ struct Country: Codable, Equatable {
     }
     
     init(from decoder: Decoder) throws {
+        log.debug("+")
+        
         let values = try decoder.container(keyedBy: CodingKeys.self)
         name = try values.decode(String.self, forKey: .name)
         translations = try values.decode([String: String?].self, forKey: .translations)
@@ -83,6 +87,8 @@ extension Country.Currency: Identifiable {
 
 extension Country {
     func name(locale: Locale) -> String {
+        log.debug("+")
+        
         let localeId = locale.shortIdentifier
         if let value = translations[localeId], let localizedName = value {
             return localizedName

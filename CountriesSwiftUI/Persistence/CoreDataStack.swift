@@ -27,6 +27,8 @@ struct CoreDataStack: PersistentStore {
     init(directory: FileManager.SearchPathDirectory = .documentDirectory,
          domainMask: FileManager.SearchPathDomainMask = .userDomainMask,
          version vNumber: UInt) {
+        log.debug("+")
+        
         let version = Version(vNumber)
         container = NSPersistentContainer(name: version.modelName)
         if let url = version.dbFileURL(directory, domainMask) {
@@ -48,6 +50,8 @@ struct CoreDataStack: PersistentStore {
     }
     
     func count<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<Int, Error> {
+        log.debug("+")
+        
         return onStoreIsReady
             .flatMap { [weak container] in
                 Future<Int, Error> { promise in
@@ -64,6 +68,8 @@ struct CoreDataStack: PersistentStore {
     
     func fetch<T, V>(_ fetchRequest: NSFetchRequest<T>,
                      map: @escaping (T) throws -> V?) -> AnyPublisher<LazyList<V>, Error> {
+        log.debug("+")
+        
         assert(Thread.isMainThread)
         let fetch = Future<LazyList<V>, Error> { [weak container] promise in
             guard let context = container?.viewContext else { return }
@@ -92,6 +98,8 @@ struct CoreDataStack: PersistentStore {
     }
     
     func update<Result>(_ operation: @escaping DBOperation<Result>) -> AnyPublisher<Result, Error> {
+        log.debug("+")
+        
         let update = Future<Result, Error> { [weak bgQueue, weak container] promise in
             bgQueue?.async {
                 guard let context = container?.newBackgroundContext() else { return }
@@ -119,6 +127,8 @@ struct CoreDataStack: PersistentStore {
     }
     
     private var onStoreIsReady: AnyPublisher<Void, Error> {
+        log.debug("+")
+        
         return isStoreLoaded
             .filter { $0 }
             .map { _ in }
@@ -137,6 +147,8 @@ extension CoreDataStack {
         private let number: UInt
         
         init(_ number: UInt) {
+            log.debug("number = \(number)")
+            
             self.number = number
         }
         
@@ -146,6 +158,8 @@ extension CoreDataStack {
         
         func dbFileURL(_ directory: FileManager.SearchPathDirectory,
                        _ domainMask: FileManager.SearchPathDomainMask) -> URL? {
+            log.debug("+")
+            
             return FileManager.default
                 .urls(for: directory, in: domainMask).first?
                 .appendingPathComponent(subpathToDB)

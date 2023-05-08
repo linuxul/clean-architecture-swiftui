@@ -19,6 +19,8 @@ extension ProcessInfo {
 
 extension String {
     func localized(_ locale: Locale) -> String {
+        log.debug("+")
+        
         let localeId = locale.shortIdentifier
         guard let path = Bundle.main.path(forResource: localeId, ofType: "lproj"),
             let bundle = Bundle(path: path) else {
@@ -44,6 +46,8 @@ internal final class Inspection<V> {
     var callbacks = [UInt: (V) -> Void]()
     
     func visit(_ view: V, _ line: UInt) {
+        log.debug("+")
+        
         if let callback = callbacks.removeValue(forKey: line) {
             callback(view)
         }

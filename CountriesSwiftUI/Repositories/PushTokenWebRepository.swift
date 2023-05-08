@@ -20,11 +20,15 @@ struct RealPushTokenWebRepository: PushTokenWebRepository {
     let bgQueue = DispatchQueue(label: "bg_parse_queue")
     
     init(session: URLSession, baseURL: String) {
+        log.debug("+")
+        
         self.session = session
         self.baseURL = baseURL
     }
     
     func register(devicePushToken: Data) -> AnyPublisher<Void, Error> {
+        log.debug("+")
+        
         // upload the push token to your server
         return Just<Void>.withErrorType(Error.self)
     }

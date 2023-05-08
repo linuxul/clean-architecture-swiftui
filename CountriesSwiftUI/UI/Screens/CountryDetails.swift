@@ -23,6 +23,8 @@ struct CountryDetails: View {
     let inspection = Inspection<Self>()
     
     init(country: Country, details: Loadable<Country.Details> = .notRequested) {
+        log.debug("+")
+        
         self.country = country
         self._details = .init(initialValue: details)
     }
@@ -52,11 +54,15 @@ struct CountryDetails: View {
 
 private extension CountryDetails {
     func loadCountryDetails() {
+        log.debug("+")
+        
         injected.interactors.countriesInteractor
             .load(countryDetails: $details, country: country)
     }
     
     func showCountryDetailsSheet() {
+        log.debug("+")
+        
         injected.appState[\.routing.countryDetails.detailsSheet] = true
     }
 }
@@ -80,7 +86,9 @@ private extension CountryDetails {
     }
     
     func failedView(_ error: Error) -> some View {
-        ErrorView(error: error, retryAction: {
+        log.debug("+")
+        
+        return ErrorView(error: error, retryAction: {
             self.loadCountryDetails()
         })
     }
@@ -90,7 +98,9 @@ private extension CountryDetails {
 
 private extension CountryDetails {
     func loadedView(_ countryDetails: Country.Details) -> some View {
-        List {
+        log.debug("+")
+        
+        return List {
             country.flag.map { url in
                 flagView(url: url)
             }
@@ -108,7 +118,9 @@ private extension CountryDetails {
     }
     
     func flagView(url: URL) -> some View {
-        HStack {
+        log.debug("+")
+        
+        return HStack {
             Spacer()
             ImageView(imageURL: url)
                 .frame(width: 120, height: 80)
@@ -120,7 +132,9 @@ private extension CountryDetails {
     }
     
     func basicInfoSectionView(countryDetails: Country.Details) -> some View {
-        Section(header: Text("Basic Info")) {
+        log.debug("+")
+        
+        return Section(header: Text("Basic Info")) {
             DetailRow(leftLabel: Text(country.alpha3Code), rightLabel: "Code")
             DetailRow(leftLabel: Text("\(country.population)"), rightLabel: "Population")
             DetailRow(leftLabel: Text("\(countryDetails.capital)"), rightLabel: "Capital")
@@ -128,7 +142,9 @@ private extension CountryDetails {
     }
     
     func currenciesSectionView(currencies: [Country.Currency]) -> some View {
-        Section(header: Text("Currencies")) {
+        log.debug("+")
+        
+        return Section(header: Text("Currencies")) {
             ForEach(currencies) { currency in
                 DetailRow(leftLabel: Text(currency.title), rightLabel: Text(currency.code))
             }
@@ -136,7 +152,9 @@ private extension CountryDetails {
     }
     
     func neighborsSectionView(neighbors: [Country]) -> some View {
-        Section(header: Text("Neighboring countries")) {
+        log.debug("+")
+        
+        return Section(header: Text("Neighboring countries")) {
             ForEach(neighbors) { country in
                 NavigationLink(destination: self.neighbourDetailsView(country: country)) {
                     DetailRow(leftLabel: Text(country.name(locale: self.locale)), rightLabel: "")
@@ -146,11 +164,15 @@ private extension CountryDetails {
     }
     
     func neighbourDetailsView(country: Country) -> some View {
-        CountryDetails(country: country)
+        log.debug("+")
+        
+        return CountryDetails(country: country)
     }
     
     func modalDetailsView() -> some View {
-        ModalDetailsView(country: country,
+        log.debug("+")
+        
+        return ModalDetailsView(country: country,
                          isDisplayed: routingBinding.detailsSheet)
             .inject(injected)
     }

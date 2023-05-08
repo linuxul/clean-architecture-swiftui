@@ -17,6 +17,8 @@ struct AppEnvironment {
 extension AppEnvironment {
     
     static func bootstrap() -> AppEnvironment {
+        log.debug("+")
+        
         let appState = Store<AppState>(AppState())
         /*
          To see the deep linking in action:
@@ -51,6 +53,8 @@ extension AppEnvironment {
     }
     
     private static func configuredURLSession() -> URLSession {
+        log.debug("+")
+        
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 60
         configuration.timeoutIntervalForResource = 120
@@ -62,6 +66,8 @@ extension AppEnvironment {
     }
     
     private static func configuredWebRepositories(session: URLSession) -> DIContainer.WebRepositories {
+        log.debug("+")
+        
         let countriesWebRepository = RealCountriesWebRepository(
             session: session,
             baseURL: "https://restcountries.com/v2")
@@ -77,6 +83,8 @@ extension AppEnvironment {
     }
     
     private static func configuredDBRepositories(appState: Store<AppState>) -> DIContainer.DBRepositories {
+        log.debug("+")
+        
         let persistentStore = CoreDataStack(version: CoreDataStack.Version.actual)
         let countriesDBRepository = RealCountriesDBRepository(persistentStore: persistentStore)
         return .init(countriesRepository: countriesDBRepository)
@@ -86,6 +94,7 @@ extension AppEnvironment {
                                               dbRepositories: DIContainer.DBRepositories,
                                               webRepositories: DIContainer.WebRepositories
     ) -> DIContainer.Interactors {
+        log.debug("+")
         
         let countriesInteractor = RealCountriesInteractor(
             webRepository: webRepositories.countriesRepository,

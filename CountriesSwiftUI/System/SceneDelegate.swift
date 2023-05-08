@@ -18,6 +18,8 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
+        log.debug("+")
+        
         let environment = AppEnvironment.bootstrap()
         let contentView = ContentView(container: environment.container)
         if let windowScene = scene as? UIWindowScene {
@@ -33,14 +35,20 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        log.debug("+")
+        
         systemEventsHandler?.sceneOpenURLContexts(URLContexts)
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
+        log.debug("+")
+        
         systemEventsHandler?.sceneDidBecomeActive()
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
+        log.debug("+")
+        
         systemEventsHandler?.sceneWillResignActive()
     }
 }

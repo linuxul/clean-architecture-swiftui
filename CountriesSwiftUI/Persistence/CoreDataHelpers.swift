@@ -22,11 +22,15 @@ extension ManagedEntity where Self: NSManagedObject {
     }
     
     static func insertNew(in context: NSManagedObjectContext) -> Self? {
+        log.debug("+")
+        
         return NSEntityDescription
             .insertNewObject(forEntityName: entityName, into: context) as? Self
     }
     
     static func newFetchRequest() -> NSFetchRequest<Self> {
+        log.debug("+")
+        
         return .init(entityName: entityName)
     }
 }
@@ -36,6 +40,8 @@ extension ManagedEntity where Self: NSManagedObject {
 extension NSManagedObjectContext {
     
     func configureAsReadOnlyContext() {
+        log.debug("+")
+        
         automaticallyMergesChangesFromParent = true
         mergePolicy = NSRollbackMergePolicy
         undoManager = nil
@@ -43,6 +49,8 @@ extension NSManagedObjectContext {
     }
     
     func configureAsUpdateContext() {
+        log.debug("+")
+        
         mergePolicy = NSOverwriteMergePolicy
         undoManager = nil
     }

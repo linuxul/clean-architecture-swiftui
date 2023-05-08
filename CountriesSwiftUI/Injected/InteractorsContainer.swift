@@ -15,6 +15,8 @@ extension DIContainer {
         init(countriesInteractor: CountriesInteractor,
              imagesInteractor: ImagesInteractor,
              userPermissionsInteractor: UserPermissionsInteractor) {
+            log.debug("+")
+            
             self.countriesInteractor = countriesInteractor
             self.imagesInteractor = imagesInteractor
             self.userPermissionsInteractor = userPermissionsInteractor

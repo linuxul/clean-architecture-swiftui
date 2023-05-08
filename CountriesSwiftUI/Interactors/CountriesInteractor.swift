@@ -23,12 +23,15 @@ struct RealCountriesInteractor: CountriesInteractor {
     let appState: Store<AppState>
     
     init(webRepository: CountriesWebRepository, dbRepository: CountriesDBRepository, appState: Store<AppState>) {
+        log.debug("+")
+        
         self.webRepository = webRepository
         self.dbRepository = dbRepository
         self.appState = appState
     }
 
     func load(countries: LoadableSubject<LazyList<Country>>, search: String, locale: Locale) {
+        log.debug("+")
         
         let cancelBag = CancelBag()
         countries.wrappedValue.setIsLoading(cancelBag: cancelBag)
@@ -53,6 +56,8 @@ struct RealCountriesInteractor: CountriesInteractor {
     }
     
     func refreshCountriesList() -> AnyPublisher<Void, Error> {
+        log.debug("+")
+        
         return webRepository
             .loadCountries()
             .ensureTimeSpan(requestHoldBackTimeInterval)
@@ -63,6 +68,7 @@ struct RealCountriesInteractor: CountriesInteractor {
     }
 
     func load(countryDetails: LoadableSubject<Country.Details>, country: Country) {
+        log.debug("+")
         
         let cancelBag = CancelBag()
         countryDetails.wrappedValue.setIsLoading(cancelBag: cancelBag)
@@ -81,6 +87,8 @@ struct RealCountriesInteractor: CountriesInteractor {
     }
     
     private func loadAndStoreCountryDetailsFromWeb(country: Country) -> AnyPublisher<Country.Details?, Error> {
+        log.debug("+")
+        
         return webRepository
             .loadCountryDetails(country: country)
             .ensureTimeSpan(requestHoldBackTimeInterval)
@@ -98,12 +106,18 @@ struct RealCountriesInteractor: CountriesInteractor {
 struct StubCountriesInteractor: CountriesInteractor {
     
     func refreshCountriesList() -> AnyPublisher<Void, Error> {
+        log.debug("+")
+        
         return Just<Void>.withErrorType(Error.self)
     }
     
     func load(countries: LoadableSubject<LazyList<Country>>, search: String, locale: Locale) {
+        log.debug("+")
+        
     }
     
     func load(countryDetails: LoadableSubject<Country.Details>, country: Country) {
+        log.debug("+")
+        
     }
 }
