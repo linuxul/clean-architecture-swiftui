@@ -12,10 +12,10 @@ import Combine
 import Foundation
 
 final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
+    
     var window: UIWindow?
     var systemEventsHandler: SystemEventsHandler?
-
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
         log.debug("+")

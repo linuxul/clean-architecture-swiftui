@@ -126,14 +126,14 @@ extension LazyList: Sequence {
             }
         }
     }
-
+    
     // LazyList의 Iterator를 생성합니다.
     func makeIterator() -> Iterator {
         log.debug("+")
         
         return .init(list: self)
     }
-
+    
     // 원소 개수에 대한 추정값을 반환합니다.
     var underestimatedCount: Int { count }
 }
@@ -155,14 +155,14 @@ extension LazyList: RandomAccessCollection {
             fatalError("\(error)")
         }
     }
-
+    
     // 주어진 인덱스의 다음 인덱스를 반환합니다.
     public func index(after index: Index) -> Index {
         log.debug("+")
         
         return index + 1
     }
-
+    
     // 주어진 인덱스의 이전 인덱스를 반환합니다.
     public func index(before index: Index) -> Index {
         log.debug("+")

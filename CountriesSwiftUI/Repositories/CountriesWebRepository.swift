@@ -32,7 +32,7 @@ struct RealCountriesWebRepository: CountriesWebRepository {
         
         return call(endpoint: API.allCountries)
     }
-
+    
     func loadCountryDetails(country: Country) -> AnyPublisher<Country.Details.Intermediate, Error> {
         log.debug("+")
         
@@ -40,7 +40,7 @@ struct RealCountriesWebRepository: CountriesWebRepository {
         return request
             .tryMap { array -> Country.Details.Intermediate in
                 guard let details = array.first
-                    else { throw APIError.unexpectedResponse }
+                else { throw APIError.unexpectedResponse }
                 return details
             }
             .eraseToAnyPublisher()

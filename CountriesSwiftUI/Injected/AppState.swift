@@ -22,11 +22,11 @@ struct AppState: Equatable {
 extension AppState {
     struct UserData: Equatable {
         /*
-        국가 목록 (Loadable<[Country]>)이 여기에 저장되어 있습니다.
-        데이터베이스 내에서 국가 이름별 검색을 수행하기 위해 제거되었습니다.
-        결과적으로 이 변수는 하나의 화면 (CountriesList)에서만 로컬로 사용됩니다.
-        그렇지 않으면 국가 목록이 여기에 남아 있을 수 있고 전체 앱에서 사용할 수 있습니다.
-        */
+         국가 목록 (Loadable<[Country]>)이 여기에 저장되어 있습니다.
+         데이터베이스 내에서 국가 이름별 검색을 수행하기 위해 제거되었습니다.
+         결과적으로 이 변수는 하나의 화면 (CountriesList)에서만 로컬로 사용됩니다.
+         그렇지 않으면 국가 목록이 여기에 남아 있을 수 있고 전체 앱에서 사용할 수 있습니다.
+         */
     }
 }
 
@@ -67,9 +67,9 @@ extension AppState {
 // 앱 상태의 동등성을 확인합니다.
 func == (lhs: AppState, rhs: AppState) -> Bool {
     return lhs.userData == rhs.userData &&
-        lhs.routing == rhs.routing &&
-        lhs.system == rhs.system &&
-        lhs.permissions == rhs.permissions
+    lhs.routing == rhs.routing &&
+    lhs.system == rhs.system &&
+    lhs.permissions == rhs.permissions
 }
 
 // 디버그 모드에서 미리보기용 앱 상태를 생성합니다.

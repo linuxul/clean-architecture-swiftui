@@ -8,15 +8,15 @@
 
 /*
  이 코드는 Loadable이라는 제네릭 열거형을 정의하고 있습니다. Loadable은 데이터 로드 상태를 나타내는 데 사용되며, 다음의 케이스들을 가지고 있습니다.
-
+ 
  notRequested: 데이터가 아직 요청되지 않은 상태
  isLoading(last: T?, cancelBag: CancelBag): 데이터 로딩 중인 상태. 이전 데이터를 포함하며, 취소 가능한 작업을 저장하는 CancelBag도 포함
  loaded(T): 데이터가 로드된 상태
  failed(Error): 데이터 로딩이 실패한 상태
  Loadable은 데이터의 현재 값(value)과 오류(error)를 가져올 수 있는 프로퍼티를 제공합니다.
-
+ 
  또한, Loadable 열거형은 다음과 같은 여러 메서드를 가지고 있습니다:
-
+ 
  setIsLoading(cancelBag: CancelBag): 현재 상태를 로딩 중으로 변경하고, CancelBag을 설정합니다.
  cancelLoading(): 로딩을 취소하고, 결과에 따라 상태를 변경합니다.
  map<V>(_ transform: (T) throws -> V) -> Loadable<V>: 데이터를 새로운 유형의 Loadable로 변환합니다.
@@ -33,7 +33,7 @@ typealias LoadableSubject<Value> = Binding<Loadable<Value>>
 
 // 제네릭 Loadable 열거형을 정의합니다.
 enum Loadable<T> {
-
+    
     // 아직 요청되지 않은 상태를 나타냅니다.
     case notRequested
     // 데이터 로딩 중인 상태를 나타냅니다. 이전 데이터와 취소 가능한 작업을 저장하는 CancelBag를 포함합니다.
@@ -42,7 +42,7 @@ enum Loadable<T> {
     case loaded(T)
     // 데이터 로딩이 실패한 상태를 나타냅니다.
     case failed(Error)
-
+    
     // 현재 데이터 값을 반환합니다.
     var value: T? {
         switch self {

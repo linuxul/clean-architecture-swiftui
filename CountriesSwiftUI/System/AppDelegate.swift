@@ -22,9 +22,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var systemEventsHandler: SystemEventsHandler? = {
         self.systemEventsHandler(UIApplication.shared)
     }()
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions
-        launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+                     launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         setXcgLoger()
         
@@ -80,10 +80,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         let logPath = cacheDirectory.appendingPathComponent(strLogFile)
         
         // 상용 버전에서만 로그를 에러만 출력을 하도록 변경
-        #if DEBUG
-            log.setup(level: .verbose, showThreadName: true, showLevel: true, showFileNames: true, showLineNumbers: true, writeToFile: logPath, fileLevel: .verbose)
-        #else
-            log.setup(level: .error, showThreadName: true, showLevel: true, showFileNames: true, showLineNumbers: true, writeToFile: "XCGLogger", fileLevel: .error)
-        #endif
+#if DEBUG
+        log.setup(level: .verbose, showThreadName: true, showLevel: true, showFileNames: true, showLineNumbers: true, writeToFile: logPath, fileLevel: .verbose)
+#else
+        log.setup(level: .error, showThreadName: true, showLevel: true, showFileNames: true, showLineNumbers: true, writeToFile: "XCGLogger", fileLevel: .error)
+#endif
     }
 }

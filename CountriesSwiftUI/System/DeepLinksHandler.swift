@@ -25,11 +25,11 @@ enum DeepLink: Equatable {
             let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
             components.host == "www.example.com",
             let query = components.queryItems
-            else { return nil }
+        else { return nil }
         
         // 쿼리 항목 중 "alpha3code" 항목을 찾고 해당 값을 사용하여 딥 링크를 생성합니다.
         if let item = query.first(where: { $0.name == "alpha3code" }),
-            let alpha3Code = item.value {
+           let alpha3Code = item.value {
             self = .showCountryFlag(alpha3Code: Country.Code(alpha3Code))
             return
         }

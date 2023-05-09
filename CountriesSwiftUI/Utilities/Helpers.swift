@@ -24,7 +24,7 @@ extension String {
         
         let localeId = locale.shortIdentifier
         guard let path = Bundle.main.path(forResource: localeId, ofType: "lproj"),
-            let bundle = Bundle(path: path) else {
+              let bundle = Bundle(path: path) else {
             return NSLocalizedString(self, comment: "")
         }
         return bundle.localizedString(forKey: self, value: nil, table: nil)

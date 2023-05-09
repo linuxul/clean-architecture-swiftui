@@ -40,9 +40,9 @@ extension Store {
     
     // 특정 상태 값에 대한 업데이트를 게시하는 메서드입니다.
     func updates<Value>(for keyPath: KeyPath<Output, Value>) ->
-        AnyPublisher<Value, Failure> where Value: Equatable {
+    AnyPublisher<Value, Failure> where Value: Equatable {
         log.debug("+")
-            
+        
         return map(keyPath).removeDuplicates().eraseToAnyPublisher()
     }
 }

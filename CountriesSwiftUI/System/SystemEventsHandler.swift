@@ -47,7 +47,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
         installKeyboardHeightObserver()
         installPushNotificationsSubscriberOnLaunch()
     }
-     
+    
     // 키보드 높이 옵저버를 설치하는 메서드입니다
     private func installKeyboardHeightObserver() {
         log.debug("+")
@@ -59,7 +59,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
             }
             .store(in: cancelBag)
     }
-     
+    
     // 앱 실행 시 푸시 알림 구독자를 설치하는 메서드입니다.
     private func installPushNotificationsSubscriberOnLaunch() {
         log.debug("+")

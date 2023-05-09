@@ -129,7 +129,7 @@ struct CoreDataStack: PersistentStore {
         }
         return onStoreIsReady
             .flatMap { update }
-//          .subscribe(on: bgQueue) // Does not work as stated in the docs. Using `bgQueue.async`
+        //          .subscribe(on: bgQueue) // Does not work as stated in the docs. Using `bgQueue.async`
             .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }

@@ -30,7 +30,7 @@ extension Country.Details {
         log.debug("+")
         
         guard let capital = managedObject.capital
-            else { return nil }
+        else { return nil }
         
         let currencies = (managedObject.currencies ?? NSSet())
             .toArray(of: CurrencyMO.self)
@@ -53,7 +53,7 @@ extension Country.Details.Intermediate {
         log.debug("+")
         
         guard let details = CountryDetailsMO.insertNew(in: context)
-            else { return nil }
+        else { return nil }
         details.capital = capital
         let storedCurrencies = currencies.compactMap { $0.store(in: context) }
         details.currencies = NSSet(array: storedCurrencies)
@@ -69,8 +69,8 @@ extension Country.Currency {
         log.debug("+")
         
         guard let code = managedObject.code,
-            let name = managedObject.name
-            else { return nil }
+              let name = managedObject.name
+        else { return nil }
         self.init(code: code, symbol: managedObject.symbol, name: name)
     }
     
@@ -79,7 +79,7 @@ extension Country.Currency {
         log.debug("+")
         
         guard let currency = CurrencyMO.insertNew(in: context)
-            else { return nil }
+        else { return nil }
         currency.code = code
         currency.name = name
         currency.symbol = symbol
@@ -94,7 +94,7 @@ extension Country {
         log.debug("+")
         
         guard let country = CountryMO.insertNew(in: context)
-            else { return nil }
+        else { return nil }
         country.name = name
         country.alpha3code = alpha3Code
         country.population = Int32(population)
@@ -102,7 +102,7 @@ extension Country {
         let translations = self.translations
             .compactMap { (locale, name) -> NameTranslationMO? in
                 guard let name = name,
-                    let translation = NameTranslationMO.insertNew(in: context)
+                      let translation = NameTranslationMO.insertNew(in: context)
                 else { return nil }
                 translation.name = name
                 translation.locale = locale
@@ -116,19 +116,19 @@ extension Country {
         log.debug("+")
         
         guard let nameTranslations = managedObject.nameTranslations
-            else { return nil }
+        else { return nil }
         let translations: [String: String?] = nameTranslations
             .toArray(of: NameTranslationMO.self)
             .reduce([:], { (dict, record) -> [String: String?] in
                 guard let locale = record.locale, let name = record.name
-                    else { return dict }
+                else { return dict }
                 var dict = dict
                 dict[locale] = name
                 return dict
             })
         guard let name = managedObject.name,
-            let alpha3code = managedObject.alpha3code
-            else { return nil }
+              let alpha3code = managedObject.alpha3code
+        else { return nil }
         
         self.init(name: name, translations: translations,
                   population: Int(managedObject.population),

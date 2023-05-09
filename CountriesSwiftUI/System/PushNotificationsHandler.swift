@@ -41,7 +41,7 @@ extension RealPushNotificationsHandler: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler:
-        @escaping (UNNotificationPresentationOptions) -> Void) {
+                                @escaping (UNNotificationPresentationOptions) -> Void) {
         log.debug("+")
         
         // 푸시 알림을 사용자에게 표시합니다.
@@ -65,7 +65,7 @@ extension RealPushNotificationsHandler: UNUserNotificationCenterDelegate {
         
         // 푸시 알림 페이로드에서 countryCode를 추출합니다.
         guard let payload = userInfo["aps"] as? NotificationPayload,
-            let countryCode = payload["country"] as? Country.Code else {
+              let countryCode = payload["country"] as? Country.Code else {
             completionHandler()
             return
         }

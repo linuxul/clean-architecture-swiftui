@@ -38,10 +38,10 @@ extension AppEnvironment {
          
          Alternatively, just copy the code below before the "return" and launch:
          
-            DispatchQueue.main.async {
-                deepLinksHandler.open(deepLink: .showCountryFlag(alpha3Code: "AFG"))
-            }
-        */
+         DispatchQueue.main.async {
+         deepLinksHandler.open(deepLink: .showCountryFlag(alpha3Code: "AFG"))
+         }
+         */
         
         // URLSession을 구성합니다.
         let session = configuredURLSession()

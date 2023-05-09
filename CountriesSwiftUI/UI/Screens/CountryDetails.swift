@@ -173,8 +173,8 @@ private extension CountryDetails {
         log.debug("+")
         
         return ModalDetailsView(country: country,
-                         isDisplayed: routingBinding.detailsSheet)
-            .inject(injected)
+                                isDisplayed: routingBinding.detailsSheet)
+        .inject(injected)
     }
 }
 

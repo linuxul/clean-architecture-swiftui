@@ -64,7 +64,7 @@ struct RealCountriesDBRepository: CountriesDBRepository {
             .update { context in
                 let parentRequest = CountryMO.countries(alpha3codes: [country.alpha3Code])
                 guard let parent = try context.fetch(parentRequest).first
-                    else { return nil }
+                else { return nil }
                 let neighbors = CountryMO.countries(alpha3codes: countryDetails.borders)
                 let borders = try context.fetch(neighbors)
                 let details = countryDetails.store(in: context, country: parent, borders: borders)
@@ -108,7 +108,7 @@ extension CountryMO {
             let localeId = locale.shortIdentifier
             let nameMatch = NSPredicate(format: "name CONTAINS[cd] %@", search)
             let localizedMatch = NSPredicate(format:
-            "(SUBQUERY(nameTranslations,$t,$t.locale == %@ AND $t.name CONTAINS[cd] %@).@count > 0)", localeId, search)
+                                                "(SUBQUERY(nameTranslations,$t,$t.locale == %@ AND $t.name CONTAINS[cd] %@).@count > 0)", localeId, search)
             request.predicate = NSCompoundPredicate(type: .or, subpredicates: [nameMatch, localizedMatch])
         }
         request.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]

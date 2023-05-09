@@ -9,13 +9,13 @@
  RootViewAppearance은 SwiftUI의 ViewModifier 프로토콜을 구현하는 구조체입니다.
  이 구조체는 뷰를 가리는 흐림(blur) 효과를 적용하고, Safe Area를 무시하도록 설정합니다.
  또한 appState에서 system.isActive 속성을 구독하여 isActive 상태를 업데이트합니다.
-
+ 
  stateUpdate 변수는 injected.appState에서 system.isActive 속성을 구독하여, 해당 속성이 변경될 때마다 Bool 값을 방출하는 AnyPublisher를 생성합니다.
  isActive 상태를 업데이트하는 데 사용됩니다.
-
+ 
  inspection 속성은 SwiftUI 라이브러리에서 제공하는 Inspection 객체입니다.
  이 객체를 사용하여 View 검사를 수행하고, View의 내부 상태를 테스트할 수 있습니다.
-
+ 
  RootViewAppearance 구조체는 SwiftUI의 뷰 수정자(View Modifier)를 구현하는 데 사용됩니다.
  이 구조체를 뷰에 적용하면, 해당 뷰가 가려진 흐림(blur) 효과와 Safe Area를 무시하는 효과를 가지게 됩니다.
  */

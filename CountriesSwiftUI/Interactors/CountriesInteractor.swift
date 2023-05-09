@@ -35,7 +35,7 @@ struct RealCountriesInteractor: CountriesInteractor {
         self.dbRepository = dbRepository
         self.appState = appState
     }
-
+    
     // 나라 목록을 로드하는 메소드
     func load(countries: LoadableSubject<LazyList<Country>>, search: String, locale: Locale) {
         log.debug("+")
@@ -79,14 +79,14 @@ struct RealCountriesInteractor: CountriesInteractor {
             }
             .eraseToAnyPublisher()
     }
-
+    
     // 특정 나라의 상세 정보를 로드하는 메소드
     func load(countryDetails: LoadableSubject<Country.Details>, country: Country) {
         log.debug("+")
         
         let cancelBag = CancelBag()
         countryDetails.wrappedValue.setIsLoading(cancelBag: cancelBag)
-
+        
         dbRepository
             .countryDetails(country: country)
             .flatMap { details -> AnyPublisher<Country.Details?, Error> in
