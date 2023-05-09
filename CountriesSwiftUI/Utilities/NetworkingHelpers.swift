@@ -10,6 +10,7 @@ import SwiftUI
 import Combine
 import Foundation
 
+// Just의 확장으로 Void 출력에 대한 오류 유형을 설정합니다.
 extension Just where Output == Void {
     static func withErrorType<E>(_ errorType: E.Type) -> AnyPublisher<Void, E> {
         log.debug("+")
@@ -18,6 +19,7 @@ extension Just where Output == Void {
     }
 }
 
+// Just의 확장으로 출력에 대한 오류 유형을 설정합니다.
 extension Just {
     static func withErrorType<E>(_ value: Output, _ errorType: E.Type
     ) -> AnyPublisher<Output, E> {
@@ -30,6 +32,7 @@ extension Just {
 }
 
 extension Publisher {
+    // 결과를 처리하는 클로저를 가지는 sinkToResult를 추가합니다.
     func sinkToResult(_ result: @escaping (Result<Output, Failure>) -> Void) -> AnyCancellable {
         log.debug("+")
         
@@ -44,6 +47,7 @@ extension Publisher {
         })
     }
     
+    // Loadable을 처리하는 클로저를 가지는 sinkToLoadable을 추가합니다.
     func sinkToLoadable(_ completion: @escaping (Loadable<Output>) -> Void) -> AnyCancellable {
         log.debug("+")
         
@@ -56,6 +60,7 @@ extension Publisher {
         })
     }
     
+    // 에러에서 기본 에러를 추출하는 extractUnderlyingError 함수를 추가합니다.
     func extractUnderlyingError() -> Publishers.MapError<Self, Failure> {
         
         mapError {
@@ -69,7 +74,7 @@ extension Publisher {
     /// - Parameters:
     ///   - interval: The minimum time interval that should elapse after the subscription.
     /// - Returns: A publisher that optionally delays delivery of elements to the downstream receiver.
-    
+    // 지정된 시간 간격이 경과한 후에만 출력을 전달하는 ensureTimeSpan 함수를 추가합니다.
     func ensureTimeSpan(_ interval: TimeInterval) -> AnyPublisher<Output, Failure> {
         log.debug("+")
         
@@ -82,6 +87,7 @@ extension Publisher {
     }
 }
 
+// 에러 확장으로 기본 에러를 처리합니다.
 private extension Error {
     var underlyingError: Error? {
         let nsError = self as NSError
@@ -93,6 +99,7 @@ private extension Error {
     }
 }
 
+// Subscribers.Completion 확장으로 에러를 가져옵니다.
 extension Subscribers.Completion {
     var error: Failure? {
         switch self {

@@ -9,6 +9,7 @@
 import CoreData
 import Combine
 
+// 프로토콜 정의: CoreData 저장소에서 수행할 수 있는 작업들을 나열합니다.
 protocol PersistentStore {
     typealias DBOperation<Result> = (NSManagedObjectContext) throws -> Result
     
@@ -18,12 +19,15 @@ protocol PersistentStore {
     func update<Result>(_ operation: @escaping DBOperation<Result>) -> AnyPublisher<Result, Error>
 }
 
+// CoreDataStack: PersistentStore 프로토콜을 구현한 구조체입니다.
+// 앱의 CoreData 저장소를 관리하고 데이터를 가져오고 업데이트하는 데 사용됩니다.
 struct CoreDataStack: PersistentStore {
     
     private let container: NSPersistentContainer
     private let isStoreLoaded = CurrentValueSubject<Bool, Error>(false)
     private let bgQueue = DispatchQueue(label: "coredata")
     
+    // 초기화 메서드: 모델 이름 및 경로를 기반으로 NSPersistentContainer를 설정합니다.
     init(directory: FileManager.SearchPathDirectory = .documentDirectory,
          domainMask: FileManager.SearchPathDomainMask = .userDomainMask,
          version vNumber: UInt) {
@@ -35,6 +39,7 @@ struct CoreDataStack: PersistentStore {
             let store = NSPersistentStoreDescription(url: url)
             container.persistentStoreDescriptions = [store]
         }
+        // 백그라운드 큐에서 영구 저장소를 로드합니다.
         bgQueue.async { [weak isStoreLoaded, weak container] in
             container?.loadPersistentStores { (storeDescription, error) in
                 DispatchQueue.main.async {
@@ -49,6 +54,7 @@ struct CoreDataStack: PersistentStore {
         }
     }
     
+    // 요청된 엔티티의 개수를 가져옵니다.
     func count<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<Int, Error> {
         log.debug("+")
         
@@ -66,6 +72,7 @@ struct CoreDataStack: PersistentStore {
             .eraseToAnyPublisher()
     }
     
+    // 요청된 엔티티를 가져온 후, 지정된 매핑 함수를 사용해 변환합니다.
     func fetch<T, V>(_ fetchRequest: NSFetchRequest<T>,
                      map: @escaping (T) throws -> V?) -> AnyPublisher<LazyList<V>, Error> {
         log.debug("+")
@@ -97,6 +104,7 @@ struct CoreDataStack: PersistentStore {
             .eraseToAnyPublisher()
     }
     
+    // 지정된 데이터베이스 작업을 사용하여 저장소를 업데이트합니다.
     func update<Result>(_ operation: @escaping DBOperation<Result>) -> AnyPublisher<Result, Error> {
         log.debug("+")
         
@@ -126,6 +134,7 @@ struct CoreDataStack: PersistentStore {
             .eraseToAnyPublisher()
     }
     
+    // 저장소가 준비된 후 수행할 작업을 정의합니다.
     private var onStoreIsReady: AnyPublisher<Void, Error> {
         log.debug("+")
         
@@ -143,6 +152,7 @@ extension CoreDataStack.Version {
 }
 
 extension CoreDataStack {
+    // CoreDataStack의 버전 관리를 위한 구조체입니다.
     struct Version {
         private let number: UInt
         
@@ -152,10 +162,12 @@ extension CoreDataStack {
             self.number = number
         }
         
+        // 사용할 CoreData 모델의 이름을 반환합니다.
         var modelName: String {
             return "db_model_v1"
         }
         
+        // 지정된 디렉토리 및 도메인 마스크에 해당하는 데이터베이스 파일의 URL을 반환합니다.
         func dbFileURL(_ directory: FileManager.SearchPathDirectory,
                        _ domainMask: FileManager.SearchPathDomainMask) -> URL? {
             log.debug("+")
@@ -165,6 +177,7 @@ extension CoreDataStack {
                 .appendingPathComponent(subpathToDB)
         }
         
+        // 데이터베이스 파일의 상대 경로를 반환합니다.
         private var subpathToDB: String {
             return "db.sql"
         }
