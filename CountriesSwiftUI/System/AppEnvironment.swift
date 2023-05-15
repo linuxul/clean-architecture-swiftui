@@ -11,7 +11,9 @@ import UIKit
 import Combine
 
 /*
- 이 코드는 앱 환경 구성과 관련된 파일입니다. 주요 구성 요소 및 서비스를 초기화하고 설정하는 데 사용됩니다. AppEnvironment 구조체는 앱의 DIContainer 및 SystemEventsHandler를 포함하며, 부트스트랩 메서드를 사용하여 앱 구성 요소를 설정하고 초기화합니다. 이 파일에서는 URLSession, 웹 리포지토리, 데이터베이스 리포지토리, 인터랙터를 설정하고 초기화합니다.
+ 이 코드는 앱 환경 구성과 관련된 파일입니다. 주요 구성 요소 및 서비스를 초기화하고 설정하는 데 사용됩니다.
+ AppEnvironment 구조체는 앱의 DIContainer 및 SystemEventsHandler를 포함하며, 부트스트랩 메서드를 사용하여 앱 구성 요소를 설정하고 초기화합니다.
+ 이 파일에서는 URLSession, 웹 리포지토리, 데이터베이스 리포지토리, 인터랙터를 설정하고 초기화합니다.
  */
 struct AppEnvironment {
     let container: DIContainer
