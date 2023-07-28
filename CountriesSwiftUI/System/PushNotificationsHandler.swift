@@ -13,6 +13,7 @@
  알림 페이로드에서 국가 코드를 추출하여 딥 링크 처리를 위임합니다.
  */
 import UserNotifications
+import UIKit
 
 // 푸시 알림 처리 프로토콜을 정의합니다.
 protocol PushNotificationsHandler { }
@@ -72,5 +73,21 @@ extension RealPushNotificationsHandler: UNUserNotificationCenterDelegate {
         // countryCode를 사용하여 딥 링크를 엽니다.
         deepLinksHandler.open(deepLink: .showCountryFlag(alpha3Code: countryCode))
         completionHandler()
+    }
+
+    /// 디바이스가 푸시 알림에 성공적으로 등록되었을 때 호출되는 메서드
+    /// - Parameters:
+    ///   - application: 대리자에게 애플리케이션 객체를 제공
+    ///   - deviceToken: 앱 설치에 대한 알림 등록을 식별하는 토큰
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        log.verbose("+")
+
+
+        let tokenParts = deviceToken.map { data -> String in
+            return String(format: "%02.2hhx", data)
+        }
+
+        let token = tokenParts.joined()
+        log.verbose("tms push token = \(token)")
     }
 }

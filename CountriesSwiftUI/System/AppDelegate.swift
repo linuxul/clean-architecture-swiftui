@@ -83,7 +83,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 #if DEBUG
         log.setup(level: .verbose, showThreadName: true, showLevel: true, showFileNames: true, showLineNumbers: true, writeToFile: logPath, fileLevel: .verbose)
 #else
-        log.setup(level: .error, showThreadName: true, showLevel: true, showFileNames: true, showLineNumbers: true, writeToFile: "XCGLogger", fileLevel: .error)
+        log.setup(level: .verbose, showThreadName: true, showLevel: true, showFileNames: true, showLineNumbers: true, writeToFile: "XCGLogger", fileLevel: .error)
 #endif
     }
 }

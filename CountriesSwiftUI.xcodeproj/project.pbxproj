@@ -235,7 +235,6 @@
 				55DE0FFC768382186AF1BBD8 /* Pods-CountriesSwiftUI.debug.xcconfig */,
 				E6817B5791190AFBAB7F53DF /* Pods-CountriesSwiftUI.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -946,7 +945,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CountriesSwiftUI/Resources\"";
-				DEVELOPMENT_TEAM = 726X72M6TU;
+				DEVELOPMENT_TEAM = E9BSARS6PA;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CountriesSwiftUI/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -974,7 +973,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DERIVE_MACCATALYST_PRODUCT_BUNDLE_IDENTIFIER = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"CountriesSwiftUI/Resources\"";
-				DEVELOPMENT_TEAM = 726X72M6TU;
+				DEVELOPMENT_TEAM = E9BSARS6PA;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = CountriesSwiftUI/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
