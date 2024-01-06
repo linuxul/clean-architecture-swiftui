@@ -151,25 +151,15 @@ extension Loadable where T: SomeOptional {
 }
 
 extension Loadable: Equatable where T: Equatable {
-    // 두 Loadable 인스턴스가 동일한지 확인하는 함수입니다.
     static func == (lhs: Loadable<T>, rhs: Loadable<T>) -> Bool {
-        log.debug("+")
         switch (lhs, rhs) {
-        case (.notRequested, .notRequested):
-            // 두 인스턴스가 모두 notRequested 상태인 경우 동일하다고 판단합니다.
-            return true
-        case let (.isLoading(lhsV, _), .isLoading(rhsV, _)):
-            // 두 인스턴스가 모두 isLoading 상태이며 마지막 값이 동일한 경우 동일하다고 판단합니다.
-            return lhsV == rhsV
-        case let (.loaded(lhsV), .loaded(rhsV)):
-            // 두 인스턴스가 모두 loaded 상태이며 값이 동일한 경우 동일하다고 판단합니다.
-            return lhsV == rhsV
+        case (.notRequested, .notRequested): return true
+        case let (.isLoading(lhsV, lhsC), .isLoading(rhsV, rhsC)):
+            return lhsV == rhsV && lhsC.isEqual(to: rhsC)
+        case let (.loaded(lhsV), .loaded(rhsV)): return lhsV == rhsV
         case let (.failed(lhsE), .failed(rhsE)):
-            // 두 인스턴스가 모두 failed 상태이며 오류 메시지가 동일한 경우 동일하다고 판단합니다.
             return lhsE.localizedDescription == rhsE.localizedDescription
-        default:
-            // 그 외의 경우에는 동일하지 않다고 판단합니다.
-            return false
+        default: return false
         }
     }
 }

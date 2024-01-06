@@ -30,9 +30,7 @@ extension WebRepository {
                 .dataTaskPublisher(for: request)
                 .requestJSON(httpCodes: httpCodes)
         } catch let error {
-            // 에러가 발생한 경우, 실패한 AnyPublisher를 반환합니다.
-            return Fail<Value, Error>(error: error)
-                .eraseToAnyPublisher()
+            return Fail<Value, Error>(error: error).eraseToAnyPublisher()
         }
     }
 }

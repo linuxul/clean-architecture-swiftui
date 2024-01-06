@@ -64,7 +64,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     private func installPushNotificationsSubscriberOnLaunch() {
         log.debug("+")
         
-        weak var permissions = container.interactors.userPermissionsInteractor
+        weak var permissions = container.services.userPermissionsService
         container.appState
             .updates(for: AppState.permissionKeyPath(for: .pushNotifications))
             .first(where: { $0 != .unknown })
@@ -98,7 +98,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
         log.debug("+")
         
         container.appState[\.system.isActive] = true
-        container.interactors.userPermissionsInteractor.resolveStatus(for: .pushNotifications)
+        container.services.userPermissionsService.resolveStatus(for: .pushNotifications)
     }
     
     // 앱이 비활성화될 때 호출되는 메서드
@@ -123,9 +123,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     // 원격 알림을 받았을 때 호출되는 메서드입니다.
     func appDidReceiveRemoteNotification(payload: NotificationPayload,
                                          fetchCompletion: @escaping FetchCompletion) {
-        log.debug("+")
-        
-        container.interactors.countriesInteractor
+        container.services.countriesService
             .refreshCountriesList()
             .sinkToResult { result in
                 fetchCompletion(result.isSuccess ? .newData : .failed)

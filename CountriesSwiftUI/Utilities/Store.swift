@@ -54,12 +54,14 @@ extension Store {
  이렇게 하면 상태 관리를 수행하면서 중복 값을 방지하고 성능을 개선할 수 있습니다.
  이 파일은 앱의 상태 저장 및 관리에 사용되는 핵심 구성 요소입니다.
  */
-extension Binding where Value: Equatable {
-    func dispatched<State>(to state: Store<State>,
-                           _ keyPath: WritableKeyPath<State, Value>) -> Self {
-        log.debug("+")
-        
-        return onSet { state[keyPath] = $0 }
+extension ObservableObject {
+    func loadableSubject<Value>(_ keyPath: WritableKeyPath<Self, Loadable<Value>>) -> LoadableSubject<Value> {
+        let defaultValue = self[keyPath: keyPath]
+        return .init(get: { [weak self] in
+            self?[keyPath: keyPath] ?? defaultValue
+        }, set: { [weak self] in
+            self?[keyPath: keyPath] = $0
+        })
     }
 }
 

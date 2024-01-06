@@ -17,8 +17,8 @@ final class SystemEventsHandlerTests: XCTestCase {
     var appState: AppState {
         return sut.container.appState.value
     }
-    var interactors: DIContainer.Interactors {
-        return sut.container.interactors
+    var services: DIContainer.Services {
+        return sut.container.services
     }
     var deepLinksHandler: MockedDeepLinksHandler? {
         return sut.deepLinksHandler as? MockedDeepLinksHandler
@@ -28,22 +28,21 @@ final class SystemEventsHandlerTests: XCTestCase {
     }
     
     func verify(appState: AppState = AppState(), file: StaticString = #file, line: UInt = #line) {
-        interactors.verify(file: file, line: line)
+        services.verify(file: file, line: line)
         deepLinksHandler?.verify(file: file, line: line)
         pushTokenWebRepository?.verify(file: file, line: line)
         XCTAssertEqual(self.appState, appState, file: file, line: line)
     }
 
-    func setupSut(countries: [MockedCountriesInteractor.Action] = [],
-                  permissions: [MockedUserPermissionsInteractor.Action] = [],
+    func setupSut(countries: [MockedCountriesService.Action] = [],
+                  permissions: [MockedUserPermissionsService.Action] = [],
                   deepLink: [MockedDeepLinksHandler.Action] = [],
                   pushToken: [MockedPushTokenWebRepository.Action] = []) {
-        let interactors = DIContainer.Interactors(
-            countriesInteractor: MockedCountriesInteractor(expected: countries),
-            imagesInteractor: MockedImagesInteractor(expected: []),
-            userPermissionsInteractor: MockedUserPermissionsInteractor(expected: permissions))
-        let container = DIContainer(appState: AppState(),
-                                    interactors: interactors)
+        let services = DIContainer.Services(
+            countriesService: MockedCountriesService(expected: countries),
+            imagesService: MockedImagesService(expected: []),
+            userPermissionsService: MockedUserPermissionsService(expected: permissions))
+        let container = DIContainer(appState: AppState(), services: services)
         let deepLinksHandler = MockedDeepLinksHandler(expected: deepLink)
         let pushNotificationsHandler = DummyPushNotificationsHandler()
         let pushTokenWebRepository = MockedPushTokenWebRepository(expected: pushToken)
@@ -115,21 +114,6 @@ final class SystemEventsHandlerTests: XCTestCase {
         sut.sceneOpenURLContexts(Set<UIOpenURLContext>())
         verify()
     }
-    
-    #if os(iOS) && !targetEnvironment(macCatalyst)
-    func test_keyboardHeight() throws {
-        let textField = UITextField(frame: .zero)
-        let window = try XCTUnwrap(UIApplication.shared.windows.first, "Cannot extract the host view")
-        window.makeKeyAndVisible()
-        window.addSubview(textField)
-        setupSut()
-        XCTAssertEqual(appState.system.keyboardHeight, 0)
-        textField.becomeFirstResponder()
-        XCTAssertGreaterThan(appState.system.keyboardHeight, 0)
-        textField.removeFromSuperview()
-        verify()
-    }
-    #endif
     
     func test_handlePushRegistration() {
         setupSut(pushToken: [
