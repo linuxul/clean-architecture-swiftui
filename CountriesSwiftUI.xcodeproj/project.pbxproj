@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		52333A932654463B0034072B /* UIOpenURLContext_Init.m in Sources */ = {isa = PBXBuildFile; fileRef = 52333A922654463B0034072B /* UIOpenURLContext_Init.m */; };
 		678E0BAF26B749A000B21166 /* Publisher+WeakAssign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678E0BAE26B749A000B21166 /* Publisher+WeakAssign.swift */; };
+		AF6FD6B42B4983E9002B2CD1 /* XCGLogger in Frameworks */ = {isa = PBXBuildFile; productRef = AF6FD6B32B4983E9002B2CD1 /* XCGLogger */; };
 		F60829712369CE0100DB292E /* RequestMocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60829702369CE0100DB292E /* RequestMocking.swift */; };
 		F60829732369CE5300DB292E /* MockedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60829722369CE5300DB292E /* MockedResponse.swift */; };
 		F60829762369D58A00DB292E /* CountriesWebRepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60829752369D58A00DB292E /* CountriesWebRepositoryTests.swift */; };
@@ -209,6 +210,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F6E7ACE223F5D1EC00AB48AB /* EnvironmentOverrides in Frameworks */,
+				AF6FD6B42B4983E9002B2CD1 /* XCGLogger in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -223,6 +225,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AF6FD6B22B4983E9002B2CD1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F60829742369D55700DB292E /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
@@ -307,6 +316,7 @@
 				F64495E32360D66400C9BB1F /* CountriesSwiftUI */,
 				F67833D32369CCBD0065272F /* UnitTests */,
 				F64495E22360D66400C9BB1F /* Products */,
+				AF6FD6B22B4983E9002B2CD1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -539,6 +549,7 @@
 			name = CountriesSwiftUI;
 			packageProductDependencies = (
 				F6E7ACE123F5D1EC00AB48AB /* EnvironmentOverrides */,
+				AF6FD6B32B4983E9002B2CD1 /* XCGLogger */,
 			);
 			productName = CountriesSwiftUI;
 			productReference = F64495E12360D66400C9BB1F /* CountriesSwiftUI.app */;
@@ -602,6 +613,7 @@
 			packageReferences = (
 				F6B6212223B52AE600CD00C7 /* XCRemoteSwiftPackageReference "ViewInspector" */,
 				F6E7ACE023F5D1EC00AB48AB /* XCRemoteSwiftPackageReference "EnvironmentOverrides" */,
+				AF3DC1D32B49596300680A8E /* XCRemoteSwiftPackageReference "XCGLogger" */,
 			);
 			productRefGroup = F64495E22360D66400C9BB1F /* Products */;
 			projectDirPath = "";
@@ -1039,12 +1051,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		AF3DC1D32B49596300680A8E /* XCRemoteSwiftPackageReference "XCGLogger" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/DaveWoodCom/XCGLogger.git";
+			requirement = {
+				kind = exactVersion;
+				version = 7.0.1;
+			};
+		};
 		F6B6212223B52AE600CD00C7 /* XCRemoteSwiftPackageReference "ViewInspector" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/nalexn/ViewInspector";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.9.7;
+				kind = exactVersion;
+				version = 0.9.7;
 			};
 		};
 		F6E7ACE023F5D1EC00AB48AB /* XCRemoteSwiftPackageReference "EnvironmentOverrides" */ = {
@@ -1058,6 +1078,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		AF6FD6B32B4983E9002B2CD1 /* XCGLogger */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = AF3DC1D32B49596300680A8E /* XCRemoteSwiftPackageReference "XCGLogger" */;
+			productName = XCGLogger;
+		};
 		F6B6212323B52AE600CD00C7 /* ViewInspector */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = F6B6212223B52AE600CD00C7 /* XCRemoteSwiftPackageReference "ViewInspector" */;
