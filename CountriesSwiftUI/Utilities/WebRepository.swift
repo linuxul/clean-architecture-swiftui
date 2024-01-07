@@ -26,6 +26,7 @@ extension WebRepository {
             // API 호출에 대한 URLRequest를 생성합니다.
             let request = try endpoint.urlRequest(baseURL: baseURL)
             // URLSession의 dataTaskPublisher를 사용하여 API 요청을 실행하고 JSON 응답을 처리합니다.
+            log.debug("request = \(request)")
             return session
                 .dataTaskPublisher(for: request)
                 .requestJSON(httpCodes: httpCodes)
@@ -52,6 +53,8 @@ extension Publisher where Output == URLSession.DataTaskPublisher.Output {
             guard httpCodes.contains(code) else {
                 throw APIError.httpCode(code)
             }
+            
+            log.debug("$0 = \($0)")
             return $0.0
         }
         .extractUnderlyingError()
