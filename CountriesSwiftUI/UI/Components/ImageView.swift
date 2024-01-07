@@ -37,6 +37,8 @@ struct ImageView: View {
 
 private extension ImageView.ViewModel {
     func loadImage() {
+        log.debug("+")
+        
         container.services.imagesService
             .load(image: loadableSubject(\.image), url: imageURL)
     }

@@ -13,14 +13,14 @@ struct DetailRow: View {
     let rightLabel: Text
     
     init(leftLabel: Text, rightLabel: Text) {
-        log.debug("+")
+        log.debug("leftLabel = \(leftLabel), rightLabel = \(rightLabel)")
         
         self.leftLabel = leftLabel
         self.rightLabel = rightLabel
     }
     
     init(leftLabel: Text, rightLabel: LocalizedStringKey) {
-        log.debug("+")
+        log.debug("leftLabel = \(leftLabel), rightLabel = \(rightLabel)")
         
         self.leftLabel = leftLabel
         self.rightLabel = Text(rightLabel)

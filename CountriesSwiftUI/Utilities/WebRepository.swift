@@ -18,9 +18,8 @@ protocol WebRepository {
 
 extension WebRepository {
     // call 함수는 주어진 API 엔드포인트를 호출하고 Decodable 응답을 반환합니다.
-    func call<Value>(endpoint: APICall, httpCodes: HTTPCodes = .success) -> AnyPublisher<Value, Error>
-    where Value: Decodable {
-        log.debug("+")
+    func call<Value>(endpoint: APICall, httpCodes: HTTPCodes = .success) -> AnyPublisher<Value, Error> where Value: Decodable {
+        log.debug("endpoint = \(endpoint), httpCodes = \(httpCodes)")
         
         do {
             // API 호출에 대한 URLRequest를 생성합니다.
@@ -41,7 +40,7 @@ extension WebRepository {
 extension Publisher where Output == URLSession.DataTaskPublisher.Output {
     // requestData는 주어진 HTTP 응답 코드 범위 내의 데이터를 반환하는 AnyPublisher를 생성합니다.
     func requestData(httpCodes: HTTPCodes = .success) -> AnyPublisher<Data, Error> {
-        log.debug("+")
+        log.debug("httpCodes = \(httpCodes)")
         
         return tryMap {
             assert(!Thread.isMainThread)
@@ -66,7 +65,7 @@ extension Publisher where Output == URLSession.DataTaskPublisher.Output {
 private extension Publisher where Output == URLSession.DataTaskPublisher.Output {
     // requestJSON 함수는 requestData를 사용하여 데이터를 가져온 후, JSONDecoder를 사용하여 해당 데이터를 Decodable 객체로 변환합니다.
     func requestJSON<Value>(httpCodes: HTTPCodes) -> AnyPublisher<Value, Error> where Value: Decodable {
-        log.debug("+")
+        log.debug("httpCodes = \(httpCodes)")
         
         return requestData(httpCodes: httpCodes)
             .decode(type: Value.self, decoder: JSONDecoder())

@@ -31,6 +31,8 @@ extension RootViewAppearance {
         private let cancelBag = CancelBag()
         
         init(container: DIContainer) {
+            log.debug("container = \(container)")
+            
             container.appState.map(\.system.isActive)
                 .removeDuplicates()
                 .weakAssign(to: \.isActive, on: self)

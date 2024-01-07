@@ -21,7 +21,7 @@ struct LazyList<T> {
     
     // 초기화 메서드에서는 원소 개수, 캐시 사용 여부, 및 접근 클로저를 전달받습니다.
     init(count: Int, useCache: Bool, _ access: @escaping Access) {
-        log.debug("+")
+        log.debug("count = \(count), useCache = \(useCache)")
         
         self.count = count
         self.useCache = useCache
@@ -30,7 +30,7 @@ struct LazyList<T> {
     
     // 지정한 인덱스의 원소를 가져옵니다. 캐시를 사용하면 캐시된 값을 반환하고, 그렇지 않으면 access 클로저를 호출하여 원소를 가져옵니다.
     func element(at index: Int) throws -> T {
-        log.debug("+")
+        log.debug("index = \(index)")
         
         guard useCache else {
             return try get(at: index)
@@ -47,7 +47,7 @@ struct LazyList<T> {
     
     // 지정한 인덱스의 원소를 가져옵니다. access 클로저를 호출하여 원소를 가져옵니다.
     private func get(at index: Int) throws -> T {
-        log.debug("+")
+        log.debug("index = \(index)")
         
         guard let element = try access(index) else {
             throw Error.elementIsNil(index: index)
@@ -70,7 +70,7 @@ private extension LazyList {
         private var elements = [Int: T]()
         
         func sync(_ access: (inout [Int: T]) throws -> T) throws -> T {
-            log.debug("+")
+            log.verbose("+")
             
             guard Thread.isMainThread else {
                 var result: T!
@@ -113,7 +113,7 @@ extension LazyList: Sequence {
         
         // 다음 원소를 반환하거나, 순회가 끝났을 경우 nil을 반환합니다.
         mutating func next() -> Element? {
-            log.debug("+")
+            log.verbose("+")
             
             index += 1
             guard index < list.count else {
@@ -129,7 +129,7 @@ extension LazyList: Sequence {
     
     // LazyList의 Iterator를 생성합니다.
     func makeIterator() -> Iterator {
-        log.debug("+")
+        log.verbose("+")
         
         return .init(list: self)
     }
@@ -147,7 +147,7 @@ extension LazyList: RandomAccessCollection {
     
     // 지정한 인덱스의 원소를 반환하거나 에러가 발생하면 앱을 종료합니다.
     subscript(index: Index) -> Iterator.Element {
-        log.debug("+")
+        log.debug("index = \(index)")
         
         do {
             return try element(at: index)
@@ -158,14 +158,14 @@ extension LazyList: RandomAccessCollection {
     
     // 주어진 인덱스의 다음 인덱스를 반환합니다.
     public func index(after index: Index) -> Index {
-        log.debug("+")
+        log.debug("index = \(index)")
         
         return index + 1
     }
     
     // 주어진 인덱스의 이전 인덱스를 반환합니다.
     public func index(before index: Index) -> Index {
-        log.debug("+")
+        log.debug("index = \(index)")
         
         return index - 1
     }
@@ -174,7 +174,7 @@ extension LazyList: RandomAccessCollection {
 // LazyList를 Equatable 프로토콜을 따르도록 확장합니다.
 extension LazyList: Equatable where T: Equatable {
     static func == (lhs: LazyList<T>, rhs: LazyList<T>) -> Bool {
-        log.debug("+")
+        log.debug("lhs = \(lhs), rhs = \(rhs)")
         
         guard lhs.count == rhs.count else { return false }
         return zip(lhs, rhs).first(where: { $0 != $1 }) == nil

@@ -13,7 +13,7 @@ import Foundation
 // Just의 확장으로 Void 출력에 대한 오류 유형을 설정합니다.
 extension Just where Output == Void {
     static func withErrorType<E>(_ errorType: E.Type) -> AnyPublisher<Void, E> {
-        log.debug("+")
+        log.verbose("+")
         
         return withErrorType((), E.self)
     }
@@ -21,9 +21,8 @@ extension Just where Output == Void {
 
 // Just의 확장으로 출력에 대한 오류 유형을 설정합니다.
 extension Just {
-    static func withErrorType<E>(_ value: Output, _ errorType: E.Type
-    ) -> AnyPublisher<Output, E> {
-        log.debug("+")
+    static func withErrorType<E>(_ value: Output, _ errorType: E.Type) -> AnyPublisher<Output, E> {
+        log.debug("value = \(value), errorType = \(errorType)")
         
         return Just(value)
             .setFailureType(to: E.self)
@@ -34,7 +33,7 @@ extension Just {
 extension Publisher {
     // 결과를 처리하는 클로저를 가지는 sinkToResult를 추가합니다.
     func sinkToResult(_ result: @escaping (Result<Output, Failure>) -> Void) -> AnyCancellable {
-        log.debug("+")
+        log.verbose("+")
         
         return sink(receiveCompletion: { completion in
             switch completion {
@@ -49,7 +48,7 @@ extension Publisher {
     
     // Loadable을 처리하는 클로저를 가지는 sinkToLoadable을 추가합니다.
     func sinkToLoadable(_ completion: @escaping (Loadable<Output>) -> Void) -> AnyCancellable {
-        log.debug("+")
+        log.verbose("+")
         
         return sink(receiveCompletion: { subscriptionCompletion in
             if let error = subscriptionCompletion.error {
@@ -62,8 +61,9 @@ extension Publisher {
     
     // 에러에서 기본 에러를 추출하는 extractUnderlyingError 함수를 추가합니다.
     func extractUnderlyingError() -> Publishers.MapError<Self, Failure> {
+        log.verbose("+")
         
-        mapError {
+        return mapError {
             ($0.underlyingError as? Failure) ?? $0
         }
     }
@@ -76,7 +76,7 @@ extension Publisher {
     /// - Returns: A publisher that optionally delays delivery of elements to the downstream receiver.
     // 지정된 시간 간격이 경과한 후에만 출력을 전달하는 ensureTimeSpan 함수를 추가합니다.
     func ensureTimeSpan(_ interval: TimeInterval) -> AnyPublisher<Output, Failure> {
-        log.debug("+")
+        log.debug("interval = \(interval)")
         
         let timer = Just<Void>(())
             .delay(for: .seconds(interval), scheduler: RunLoop.main)
@@ -92,6 +92,7 @@ private extension Error {
     var underlyingError: Error? {
         let nsError = self as NSError
         if nsError.domain == NSURLErrorDomain && nsError.code == -1009 {
+            log.debug("The Internet connection appears to be offline.")
             // "The Internet connection appears to be offline."
             return self
         }

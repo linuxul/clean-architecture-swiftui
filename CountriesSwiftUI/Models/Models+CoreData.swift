@@ -27,7 +27,7 @@ extension Locale {
 extension Country.Details {
     
     init?(managedObject: CountryDetailsMO) {
-        log.debug("+")
+        log.debug("managedObject = \(managedObject)")
         
         guard let capital = managedObject.capital
         else { return nil }
@@ -50,7 +50,7 @@ extension Country.Details.Intermediate {
     @discardableResult
     func store(in context: NSManagedObjectContext,
                country: CountryMO, borders: [CountryMO]) -> CountryDetailsMO? {
-        log.debug("+")
+        log.debug("context = \(context), country = \(country), borders = \(borders)")
         
         guard let details = CountryDetailsMO.insertNew(in: context)
         else { return nil }
@@ -66,7 +66,7 @@ extension Country.Details.Intermediate {
 extension Country.Currency {
     
     init?(managedObject: CurrencyMO) {
-        log.debug("+")
+        log.debug("managedObject = \(managedObject)")
         
         guard let code = managedObject.code,
               let name = managedObject.name
@@ -76,7 +76,7 @@ extension Country.Currency {
     
     @discardableResult
     func store(in context: NSManagedObjectContext) -> CurrencyMO? {
-        log.debug("+")
+        log.debug("context = \(context)")
         
         guard let currency = CurrencyMO.insertNew(in: context)
         else { return nil }
@@ -91,7 +91,7 @@ extension Country {
     
     @discardableResult
     func store(in context: NSManagedObjectContext) -> CountryMO? {
-        log.debug("+")
+        log.debug("context = \(context)")
         
         guard let country = CountryMO.insertNew(in: context)
         else { return nil }
@@ -113,7 +113,7 @@ extension Country {
     }
     
     init?(managedObject: CountryMO) {
-        log.debug("+")
+        log.debug("managedObject = \(managedObject)")
         
         guard let nameTranslations = managedObject.nameTranslations
         else { return nil }

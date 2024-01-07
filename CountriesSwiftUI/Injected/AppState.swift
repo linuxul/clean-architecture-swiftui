@@ -54,7 +54,7 @@ extension AppState {
     
     // 권한에 대한 키 경로를 반환합니다.
     static func permissionKeyPath(for permission: Permission) -> WritableKeyPath<AppState, Permission.Status> {
-        log.debug("+")
+        log.debug("permission = \(permission)")
         
         let pathToPermissions = \AppState.permissions
         switch permission {
@@ -66,6 +66,8 @@ extension AppState {
 
 // 앱 상태의 동등성을 확인합니다.
 func == (lhs: AppState, rhs: AppState) -> Bool {
+    log.debug("lhs = \(lhs), rhs = \(rhs)")
+    
     return lhs.userData == rhs.userData &&
     lhs.routing == rhs.routing &&
     lhs.system == rhs.system &&

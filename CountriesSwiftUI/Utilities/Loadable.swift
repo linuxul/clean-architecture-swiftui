@@ -65,13 +65,14 @@ extension Loadable {
     
     // 현재 상태를 로딩 중으로 설정하고 CancelBag을 연결합니다.
     mutating func setIsLoading(cancelBag: CancelBag) {
-        log.debug("+")
+        log.debug("cancelBag = \(cancelBag)")
+        
         self = .isLoading(last: value, cancelBag: cancelBag)
     }
     
     // 현재 로딩을 취소하고 상태를 업데이트하는 함수입니다.
     mutating func cancelLoading() {
-        log.debug("+")
+        log.verbose("+")
         switch self {
         case let .isLoading(last, cancelBag):
             // CancelBag을 사용하여 로딩 작업을 취소합니다.
@@ -93,7 +94,7 @@ extension Loadable {
     
     // 현재 데이터를 새로운 Loadable 타입으로 변환합니다.
     func map<V>(_ transform: (T) throws -> V) -> Loadable<V> {
-        log.debug("+")
+        log.verbose("+")
         do {
             switch self {
             case .notRequested: return .notRequested
@@ -131,7 +132,7 @@ struct ValueIsMissingError: Error {
 extension Optional: SomeOptional {
     // 감싸진 값을 반환하거나 값이 없는 경우 ValueIsMissingError를 발생시킵니다.
     func unwrap() throws -> Wrapped {
-        log.debug("+")
+        log.verbose("+")
         
         switch self {
         case let .some(value): return value
@@ -144,7 +145,7 @@ extension Optional: SomeOptional {
 extension Loadable where T: SomeOptional {
     // 감싸진 값을 변경하거나 오류를 발생시키는 메서드입니다.
     func unwrap() -> Loadable<T.Wrapped> {
-        log.debug("+")
+        log.verbose("+")
         
         return map { try $0.unwrap() }
     }
@@ -152,6 +153,8 @@ extension Loadable where T: SomeOptional {
 
 extension Loadable: Equatable where T: Equatable {
     static func == (lhs: Loadable<T>, rhs: Loadable<T>) -> Bool {
+        log.debug("lhs = \(lhs), rhs = \(rhs)")
+        
         switch (lhs, rhs) {
         case (.notRequested, .notRequested): return true
         case let (.isLoading(lhsV, lhsC), .isLoading(rhsV, rhsC)):

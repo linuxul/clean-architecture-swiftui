@@ -15,6 +15,8 @@ extension DIContainer {
         init(countriesService: CountriesService,
              imagesService: ImagesService,
              userPermissionsService: UserPermissionsService) {
+            log.debug("countriesService = \(countriesService), imagesService = \(imagesService), userPermissionsService = \(userPermissionsService)")
+            
             self.countriesService = countriesService
             self.imagesService = imagesService
             self.userPermissionsService = userPermissionsService

@@ -23,12 +23,15 @@ struct RealCountriesService: CountriesService {
     let appState: Store<AppState>
     
     init(webRepository: CountriesWebRepository, dbRepository: CountriesDBRepository, appState: Store<AppState>) {
+        log.debug("webRepository = \(webRepository), dbRepository = \(dbRepository), appState = \(appState)")
+        
         self.webRepository = webRepository
         self.dbRepository = dbRepository
         self.appState = appState
     }
 
     func load(countries: LoadableSubject<LazyList<Country>>, search: String, locale: Locale) {
+        log.debug("countries = \(countries), search = \(search), locale = \(locale)")
         
         let cancelBag = CancelBag()
         countries.wrappedValue.setIsLoading(cancelBag: cancelBag)
@@ -53,6 +56,8 @@ struct RealCountriesService: CountriesService {
     }
     
     func refreshCountriesList() -> AnyPublisher<Void, Error> {
+        log.verbose("+")
+        
         return webRepository
             .loadCountries()
             .ensureTimeSpan(requestHoldBackTimeInterval)
@@ -63,6 +68,7 @@ struct RealCountriesService: CountriesService {
     }
 
     func load(countryDetails: LoadableSubject<Country.Details>, country: Country) {
+        log.debug("countryDetails = \(countryDetails), country = \(country)")
         
         let cancelBag = CancelBag()
         countryDetails.wrappedValue.setIsLoading(cancelBag: cancelBag)
@@ -81,6 +87,8 @@ struct RealCountriesService: CountriesService {
     }
     
     private func loadAndStoreCountryDetailsFromWeb(country: Country) -> AnyPublisher<Country.Details?, Error> {
+        log.debug("country = \(country)")
+        
         return webRepository
             .loadCountryDetails(country: country)
             .ensureTimeSpan(requestHoldBackTimeInterval)
@@ -91,6 +99,8 @@ struct RealCountriesService: CountriesService {
     }
     
     private var requestHoldBackTimeInterval: TimeInterval {
+        log.verbose("+")
+        
         return ProcessInfo.processInfo.isRunningTests ? 0 : 0.5
     }
 }
@@ -98,12 +108,18 @@ struct RealCountriesService: CountriesService {
 struct StubCountriesService: CountriesService {
     
     func refreshCountriesList() -> AnyPublisher<Void, Error> {
+        log.verbose("+")
+        
         return Just<Void>.withErrorType(Error.self)
     }
     
     func load(countries: LoadableSubject<LazyList<Country>>, search: String, locale: Locale) {
+        log.verbose("+")
+        
     }
     
     func load(countryDetails: LoadableSubject<Country.Details>, country: Country) {
+        log.verbose("+")
+        
     }
 }

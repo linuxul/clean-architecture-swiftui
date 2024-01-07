@@ -19,10 +19,14 @@ struct RealImagesService: ImagesService {
     let webRepository: ImageWebRepository
     
     init(webRepository: ImageWebRepository) {
+        log.debug("webRepository = \(webRepository)")
+        
         self.webRepository = webRepository
     }
     
     func load(image: LoadableSubject<UIImage>, url: URL?) {
+        log.debug("image = \(image), url = \(String(describing: url))")
+        
         guard let url = url else {
             image.wrappedValue = .notRequested; return
         }

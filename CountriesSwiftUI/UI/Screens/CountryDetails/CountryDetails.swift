@@ -39,13 +39,17 @@ struct CountryDetails: View {
 
 private extension CountryDetails {
     var notRequestedView: some View {
-        Text("").onAppear {
+        log.verbose("+")
+        
+        return Text("").onAppear {
             self.viewModel.loadCountryDetails()
         }
     }
     
     var loadingView: some View {
-        VStack {
+        log.verbose("+")
+        
+        return VStack {
             ActivityIndicatorView()
             Button(action: {
                 self.viewModel.details.cancelLoading()
@@ -54,7 +58,9 @@ private extension CountryDetails {
     }
     
     func failedView(_ error: Error) -> some View {
-        ErrorView(error: error, retryAction: {
+        log.debug("error = \(error)")
+        
+        return ErrorView(error: error, retryAction: {
             self.viewModel.loadCountryDetails()
         })
     }
@@ -64,7 +70,9 @@ private extension CountryDetails {
 
 private extension CountryDetails {
     func loadedView(country: Country, details: Country.Details) -> some View {
-        List {
+        log.debug("country = \(country), details = \(details)")
+        
+        return List {
             viewModel.country.flag.map { url in
                 flagView(url: url)
             }
@@ -82,7 +90,9 @@ private extension CountryDetails {
     }
     
     func flagView(url: URL) -> some View {
-        HStack {
+        log.debug("url = \(url)")
+        
+        return HStack {
             Spacer()
             ImageView(viewModel: .init(container: viewModel.container, imageURL: url))
                 .frame(width: 120, height: 80)
@@ -94,7 +104,9 @@ private extension CountryDetails {
     }
     
     func basicInfoSectionView(country: Country, details: Country.Details) -> some View {
-        Section(header: Text("Basic Info")) {
+        log.debug("country = \(country), details = \(details)")
+        
+        return Section(header: Text("Basic Info")) {
             DetailRow(leftLabel: Text(country.alpha3Code), rightLabel: "Code")
             DetailRow(leftLabel: Text("\(country.population)"), rightLabel: "Population")
             DetailRow(leftLabel: Text("\(details.capital)"), rightLabel: "Capital")
@@ -102,7 +114,9 @@ private extension CountryDetails {
     }
     
     func currenciesSectionView(currencies: [Country.Currency]) -> some View {
-        Section(header: Text("Currencies")) {
+        log.debug("currencies = \(currencies)")
+        
+        return Section(header: Text("Currencies")) {
             ForEach(currencies) { currency in
                 DetailRow(leftLabel: Text(currency.title), rightLabel: Text(currency.code))
             }
@@ -110,7 +124,9 @@ private extension CountryDetails {
     }
     
     func neighborsSectionView(neighbors: [Country]) -> some View {
-        Section(header: Text("Neighboring countries")) {
+        log.debug("neighbors = \(neighbors)")
+        
+        return Section(header: Text("Neighboring countries")) {
             ForEach(neighbors) { country in
                 NavigationLink(destination: self.neighbourDetailsView(country: country)) {
                     DetailRow(leftLabel: Text(country.name(locale: self.locale)), rightLabel: "")
@@ -120,11 +136,15 @@ private extension CountryDetails {
     }
     
     func neighbourDetailsView(country: Country) -> some View {
-        CountryDetails(viewModel: .init(container: viewModel.container, country: country))
+        log.debug("country = \(country)")
+        
+        return CountryDetails(viewModel: .init(container: viewModel.container, country: country))
     }
     
     func modalDetailsView() -> some View {
-        ModalDetailsView(viewModel: .init(
+        log.verbose("+")
+        
+        return ModalDetailsView(viewModel: .init(
             container: viewModel.container, country: viewModel.country,
             isDisplayed: $viewModel.routingState.detailsSheet))
     }

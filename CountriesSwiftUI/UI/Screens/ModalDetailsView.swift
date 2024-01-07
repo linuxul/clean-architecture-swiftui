@@ -52,6 +52,8 @@ extension ModalDetailsView {
         private var cancelBag = CancelBag()
         
         init(container: DIContainer, country: Country, isDisplayed: Binding<Bool>) {
+            log.debug("container = \(container), country = \(country), isDisplayed = \(isDisplayed)")
+            
             self.country = country
             self.isDisplayed = isDisplayed
             self.container = container
@@ -60,6 +62,8 @@ extension ModalDetailsView {
         // MARK: - Side Effects
         
         func close() {
+            log.verbose("+")
+            
             isDisplayed.wrappedValue = false
         }
     }

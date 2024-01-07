@@ -17,6 +17,8 @@ struct AppEnvironment {
 extension AppEnvironment {
     
     static func bootstrap() -> AppEnvironment {
+        log.verbose("+")
+        
         let appState = Store<AppState>(AppState())
         /*
          To see the deep linking in action:
@@ -29,16 +31,16 @@ extension AppEnvironment {
          
          Alternatively, just copy the code below before the "return" and launch:
          
-            DispatchQueue.main.async {
-                deepLinksHandler.open(deepLink: .showCountryFlag(alpha3Code: "AFG"))
-            }
-        */
+         DispatchQueue.main.async {
+         deepLinksHandler.open(deepLink: .showCountryFlag(alpha3Code: "AFG"))
+         }
+         */
         let session = configuredURLSession()
         let webRepositories = configuredWebRepositories(session: session)
         let dbRepositories = configuredDBRepositories(appState: appState)
         let services = configuredServices(appState: appState,
-                                                dbRepositories: dbRepositories,
-                                                webRepositories: webRepositories)
+                                          dbRepositories: dbRepositories,
+                                          webRepositories: webRepositories)
         let diContainer = DIContainer(appState: appState, services: services)
         let deepLinksHandler = RealDeepLinksHandler(container: diContainer)
         let pushNotificationsHandler = RealPushNotificationsHandler(deepLinksHandler: deepLinksHandler)
@@ -51,6 +53,8 @@ extension AppEnvironment {
     }
     
     private static func configuredURLSession() -> URLSession {
+        log.verbose("+")
+        
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 60
         configuration.timeoutIntervalForResource = 120
@@ -62,6 +66,8 @@ extension AppEnvironment {
     }
     
     private static func configuredWebRepositories(session: URLSession) -> DIContainer.WebRepositories {
+        log.debug("session")
+        
         let countriesWebRepository = RealCountriesWebRepository(
             session: session,
             baseURL: "https://restcountries.com/v2")
@@ -77,6 +83,8 @@ extension AppEnvironment {
     }
     
     private static func configuredDBRepositories(appState: Store<AppState>) -> DIContainer.DBRepositories {
+        log.debug("appState = \(appState)")
+        
         let persistentStore = CoreDataStack(version: CoreDataStack.Version.actual)
         let countriesDBRepository = RealCountriesDBRepository(persistentStore: persistentStore)
         return .init(countriesRepository: countriesDBRepository)
@@ -84,8 +92,8 @@ extension AppEnvironment {
     
     private static func configuredServices(appState: Store<AppState>,
                                            dbRepositories: DIContainer.DBRepositories,
-                                           webRepositories: DIContainer.WebRepositories
-    ) -> DIContainer.Services {
+                                           webRepositories: DIContainer.WebRepositories) -> DIContainer.Services {
+        log.debug("appState = \(appState), dbRepositories= \(dbRepositories), webRepositories = \(webRepositories)")
         
         let countriesService = RealCountriesService(
             webRepository: webRepositories.countriesRepository,

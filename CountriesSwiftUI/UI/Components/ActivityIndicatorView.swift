@@ -11,13 +11,13 @@ import SwiftUI
 struct ActivityIndicatorView: UIViewRepresentable {
     
     func makeUIView(context: UIViewRepresentableContext<ActivityIndicatorView>) -> UIActivityIndicatorView {
-        log.debug("+")
+        log.debug("context = \(context)")
         
         return UIActivityIndicatorView(style: .large)
     }
     
     func updateUIView(_ uiView: UIActivityIndicatorView, context: UIViewRepresentableContext<ActivityIndicatorView>) {
-        log.debug("+")
+        log.debug("uiView = \(uiView), context = \(context)")
         
         uiView.startAnimating()
     }

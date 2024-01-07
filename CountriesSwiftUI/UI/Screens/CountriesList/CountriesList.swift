@@ -58,10 +58,14 @@ struct CountriesList: View {
 
 private extension CountriesList {
     var notRequestedView: some View {
-        Text("").onAppear(perform: self.viewModel.reloadCountries)
+        log.verbose("+")
+        
+        return Text("").onAppear(perform: self.viewModel.reloadCountries)
     }
     
     func loadingView(_ previouslyLoaded: LazyList<Country>?) -> some View {
+        log.debug("previouslyLoaded = \(String(describing: previouslyLoaded))")
+        
         if let countries = previouslyLoaded {
             return AnyView(loadedView(countries, showSearch: true, showLoading: true))
         } else {
@@ -70,7 +74,9 @@ private extension CountriesList {
     }
     
     func failedView(_ error: Error) -> some View {
-        ErrorView(error: error, retryAction: {
+        return ErrorView(error: error, retryAction: {
+            log.verbose("+")
+            
             self.viewModel.reloadCountries()
         })
     }
@@ -80,7 +86,9 @@ private extension CountriesList {
 
 private extension CountriesList {
     func loadedView(_ countries: LazyList<Country>, showSearch: Bool, showLoading: Bool) -> some View {
-        VStack {
+        log.debug("countries = \(String(describing: countries))")
+        
+        return VStack {
             if showSearch {
                 SearchBar(text: $viewModel.countriesSearch.searchText.onSet({ _ in
                     self.viewModel.reloadCountries()
@@ -101,7 +109,9 @@ private extension CountriesList {
     }
     
     func detailsView(country: Country) -> some View {
-        CountryDetails(viewModel: .init(container: viewModel.container, country: country))
+        log.debug("country = \(String(describing: country))")
+        
+        return CountryDetails(viewModel: .init(container: viewModel.container, country: country))
     }
     
     var bottomInset: CGFloat {

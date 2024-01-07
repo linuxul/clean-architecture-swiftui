@@ -31,8 +31,11 @@ extension CountryDetails {
         let container: DIContainer
         private var cancelBag = CancelBag()
         
-        init(container: DIContainer, country: Country,
+        init(container: DIContainer, 
+             country: Country,
              details: Loadable<Country.Details> = .notRequested) {
+            log.debug("container = \(container), country = \(country), details = \(details)")
+            
             self.container = container
             self.country = country
             let appState = container.appState
@@ -50,11 +53,15 @@ extension CountryDetails {
         // MARK: - Side Effects
         
         func loadCountryDetails() {
+            log.verbose("+")
+            
             container.services.countriesService
                 .load(countryDetails: loadableSubject(\.details), country: country)
         }
         
         func showCountryDetailsSheet() {
+            log.verbose("+")
+            
             routingState.detailsSheet = true
         }
     }

@@ -20,7 +20,7 @@ extension ProcessInfo {
 // String 확장으로 지역화된 문자열을 가져옵니다.
 extension String {
     func localized(_ locale: Locale) -> String {
-        log.debug("+")
+        log.debug("locale = \(locale)")
         
         let localeId = locale.shortIdentifier
         guard let path = Bundle.main.path(forResource: localeId, ofType: "lproj"),
@@ -51,7 +51,7 @@ internal final class Inspection<V> {
     
     // 검사 중인 뷰를 방문하고 해당 줄의 콜백을 실행합니다.
     func visit(_ view: V, _ line: UInt) {
-        log.debug("+")
+        log.debug("view = \(view), line = \(line)")
         
         if let callback = callbacks.removeValue(forKey: line) {
             callback(view)

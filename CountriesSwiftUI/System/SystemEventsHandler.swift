@@ -37,7 +37,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
          deepLinksHandler: DeepLinksHandler,
          pushNotificationsHandler: PushNotificationsHandler,
          pushTokenWebRepository: PushTokenWebRepository) {
-        log.debug("+")
+        log.debug("container = \(container), deepLinksHandler = \(deepLinksHandler), pushNotificationsHandler = \(pushNotificationsHandler), pushTokenWebRepository = \(pushTokenWebRepository)")
         
         self.container = container
         self.deepLinksHandler = deepLinksHandler
@@ -50,7 +50,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     
     // 키보드 높이 옵저버를 설치하는 메서드입니다
     private func installKeyboardHeightObserver() {
-        log.debug("+")
+        log.verbose("+")
         
         let appState = container.appState
         NotificationCenter.default.keyboardHeightPublisher
@@ -62,7 +62,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     
     // 앱 실행 시 푸시 알림 구독자를 설치하는 메서드입니다.
     private func installPushNotificationsSubscriberOnLaunch() {
-        log.debug("+")
+        log.verbose("+")
         
         weak var permissions = container.services.userPermissionsService
         container.appState
@@ -79,7 +79,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     
     // URL 컨텍스트를 처리하는 메서드입니다.
     func sceneOpenURLContexts(_ urlContexts: Set<UIOpenURLContext>) {
-        log.debug("+")
+        log.debug("urlContexts = \(urlContexts)")
         
         guard let url = urlContexts.first?.url else { return }
         handle(url: url)
@@ -87,7 +87,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     
     // 주어진 URL을 처리하는 메서드입니다.
     private func handle(url: URL) {
-        log.debug("+")
+        log.debug("url = \(url)")
         
         guard let deepLink = DeepLink(url: url) else { return }
         deepLinksHandler.open(deepLink: deepLink)
@@ -95,7 +95,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     
     // 앱이 활성화될 때 호출되는 메서드입니다.
     func sceneDidBecomeActive() {
-        log.debug("+")
+        log.verbose("+")
         
         container.appState[\.system.isActive] = true
         container.services.userPermissionsService.resolveStatus(for: .pushNotifications)
@@ -103,14 +103,14 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     
     // 앱이 비활성화될 때 호출되는 메서드
     func sceneWillResignActive() {
-        log.debug("+")
+        log.verbose("+")
         
         container.appState[\.system.isActive] = false
     }
     
     // 푸시 등록 결과를 처리하는 메서드입니다.
     func handlePushRegistration(result: Result<Data, Error>) {
-        log.debug("+")
+        log.debug("result = \(result)")
         
         if let pushToken = try? result.get() {
             pushTokenWebRepository
@@ -123,6 +123,8 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     // 원격 알림을 받았을 때 호출되는 메서드입니다.
     func appDidReceiveRemoteNotification(payload: NotificationPayload,
                                          fetchCompletion: @escaping FetchCompletion) {
+        log.debug("payload = \(payload)")
+        
         container.services.countriesService
             .refreshCountriesList()
             .sinkToResult { result in
@@ -138,6 +140,8 @@ private extension NotificationCenter {
     
     // 키보드 높이를 게시하는 퍼블리셔를 반환합니다.
     var keyboardHeightPublisher: AnyPublisher<CGFloat, Never> {
+        log.verbose("+")
+        
         let willShow = publisher(for: UIApplication.keyboardWillShowNotification)
             .map { $0.keyboardHeight }
         let willHide = publisher(for: UIApplication.keyboardWillHideNotification)

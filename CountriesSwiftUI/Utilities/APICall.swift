@@ -39,7 +39,7 @@ extension APIError: LocalizedError {
 extension APICall {
     // 경로를 기반으로 URL을 생성하고, 유효하지 않은 경우 APIError.invalidURL를 throw합니다.
     func urlRequest(baseURL: String) throws -> URLRequest {
-        log.debug("+")
+        log.verbose("+")
         
         guard let url = URL(string: baseURL + path) else {
             throw APIError.invalidURL

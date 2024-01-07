@@ -25,7 +25,7 @@ class RealPushNotificationsHandler: NSObject, PushNotificationsHandler {
     
     // DeepLinksHandler를 사용하여 RealPushNotificationsHandler를 초기화합니다.
     init(deepLinksHandler: DeepLinksHandler) {
-        log.debug("+")
+        log.debug("deepLinksHandler = \(deepLinksHandler)")
         
         self.deepLinksHandler = deepLinksHandler
         super.init()
@@ -43,7 +43,7 @@ extension RealPushNotificationsHandler: UNUserNotificationCenterDelegate {
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler:
                                 @escaping (UNNotificationPresentationOptions) -> Void) {
-        log.debug("+")
+        log.debug("center = \(center), notification = \(notification)")
         
         // 푸시 알림을 사용자에게 표시합니다.
         completionHandler([.list, .banner, .sound])
@@ -53,7 +53,7 @@ extension RealPushNotificationsHandler: UNUserNotificationCenterDelegate {
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        log.debug("+")
+        log.debug("center = \(center), response = \(response)")
         
         // 푸시 알림의 사용자 정보를 처리합니다.
         let userInfo = response.notification.request.content.userInfo
@@ -62,7 +62,7 @@ extension RealPushNotificationsHandler: UNUserNotificationCenterDelegate {
     
     // 푸시 알림의 사용자 정보를 처리하는 메서드를 정의합니다.
     func handleNotification(userInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
-        log.debug("+")
+        log.debug("userInfo = \(userInfo)")
         
         // 푸시 알림 페이로드에서 countryCode를 추출합니다.
         guard let payload = userInfo["aps"] as? NotificationPayload,
@@ -80,13 +80,11 @@ extension RealPushNotificationsHandler: UNUserNotificationCenterDelegate {
     ///   - application: 대리자에게 애플리케이션 객체를 제공
     ///   - deviceToken: 앱 설치에 대한 알림 등록을 식별하는 토큰
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        log.verbose("+")
-
+        log.debug("application = \(application), deviceToken = \(deviceToken)")
 
         let tokenParts = deviceToken.map { data -> String in
             return String(format: "%02.2hhx", data)
         }
-
         let token = tokenParts.joined()
         log.verbose("tms push token = \(token)")
     }

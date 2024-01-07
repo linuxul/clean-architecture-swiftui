@@ -21,11 +21,15 @@ struct DIContainer: EnvironmentKey {
     private static let `default` = DIContainer(appState: AppState(), services: .stub)
     
     init(appState: Store<AppState>, services: DIContainer.Services) {
+        log.debug("appState = \(appState), services = \(services)")
+        
         self.appState = appState
         self.services = services
     }
     
     init(appState: AppState, services: DIContainer.Services) {
+        log.debug("appState = \(appState), services = \(services)")
+        
         self.init(appState: Store(appState), services: services)
     }
 }

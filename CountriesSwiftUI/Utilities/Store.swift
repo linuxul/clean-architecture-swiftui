@@ -21,6 +21,7 @@ extension Store {
     subscript<T>(keyPath: WritableKeyPath<Output, T>) -> T where T: Equatable {
         get { value[keyPath: keyPath] }
         set {
+            log.verbose("+")
             var value = self.value
             if value[keyPath: keyPath] != newValue {
                 value[keyPath: keyPath] = newValue
@@ -31,7 +32,7 @@ extension Store {
     
     // 상태 값을 일괄적으로 업데이트하는 메서드입니다.
     func bulkUpdate(_ update: (inout Output) -> Void) {
-        log.debug("+")
+        log.verbose("+")
         
         var value = self.value
         update(&value)
@@ -39,9 +40,8 @@ extension Store {
     }
     
     // 특정 상태 값에 대한 업데이트를 게시하는 메서드입니다.
-    func updates<Value>(for keyPath: KeyPath<Output, Value>) ->
-    AnyPublisher<Value, Failure> where Value: Equatable {
-        log.debug("+")
+    func updates<Value>(for keyPath: KeyPath<Output, Value>) -> AnyPublisher<Value, Failure> where Value: Equatable {
+        log.debug("keyPath = \(keyPath)")
         
         return map(keyPath).removeDuplicates().eraseToAnyPublisher()
     }
@@ -56,6 +56,8 @@ extension Store {
  */
 extension ObservableObject {
     func loadableSubject<Value>(_ keyPath: WritableKeyPath<Self, Loadable<Value>>) -> LoadableSubject<Value> {
+        log.debug("keyPath = \(keyPath)")
+        
         let defaultValue = self[keyPath: keyPath]
         return .init(get: { [weak self] in
             self?[keyPath: keyPath] ?? defaultValue
@@ -70,7 +72,7 @@ extension Binding where Value: Equatable {
     typealias ValueClosure = (Value) -> Void
     
     func onSet(_ perform: @escaping ValueClosure) -> Self {
-        log.debug("+")
+        log.verbose("+")
         
         return .init(get: { () -> Value in
             self.wrappedValue

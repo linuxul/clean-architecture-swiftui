@@ -13,24 +13,29 @@ final class CancelBag {
     private let equalToAny: Bool
     
     init(equalToAny: Bool = false) {
+        log.debug("equalToAny = \(equalToAny)")
         self.equalToAny = equalToAny
     }
     
     func isEqual(to other: CancelBag) -> Bool {
+        log.debug("other = \(other)")
         return other === self || other.equalToAny || self.equalToAny
     }
     
     func cancel() {
+        log.verbose("+")
         subscriptions.removeAll()
     }
     
     func collect(@Builder _ cancellables: () -> [AnyCancellable]) {
+        log.verbose("+")
         subscriptions.formUnion(cancellables())
     }
 
     @resultBuilder
     struct Builder {
         static func buildBlock(_ cancellables: AnyCancellable...) -> [AnyCancellable] {
+            log.verbose("cancellables = \(cancellables)")
             return cancellables
         }
     }
@@ -39,6 +44,7 @@ final class CancelBag {
 extension AnyCancellable {
     
     func store(in cancelBag: CancelBag) {
+        log.verbose("cancelBag = \(cancelBag)")
         cancelBag.subscriptions.insert(self)
     }
 }

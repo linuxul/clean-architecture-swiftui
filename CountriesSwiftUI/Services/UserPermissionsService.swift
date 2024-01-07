@@ -35,11 +35,15 @@ final class RealUserPermissionsService: UserPermissionsService {
     private let openAppSettings: () -> Void
     
     init(appState: Store<AppState>, openAppSettings: @escaping () -> Void) {
+        log.debug("appState = \(appState)")
+        
         self.appState = appState
         self.openAppSettings = openAppSettings
     }
     
     func resolveStatus(for permission: Permission) {
+        log.debug("permission = \(permission)")
+        
         let keyPath = AppState.permissionKeyPath(for: permission)
         let currentStatus = appState[keyPath]
         guard currentStatus == .unknown else { return }
@@ -53,6 +57,8 @@ final class RealUserPermissionsService: UserPermissionsService {
     }
     
     func request(permission: Permission) {
+        log.debug("permission = \(permission)")
+        
         let keyPath = AppState.permissionKeyPath(for: permission)
         let currentStatus = appState[keyPath]
         guard currentStatus != .denied else {
@@ -82,6 +88,8 @@ extension UNAuthorizationStatus {
 private extension RealUserPermissionsService {
     
     func pushNotificationsPermissionStatus(_ resolve: @escaping (Permission.Status) -> Void) {
+        log.debug("resolve = \(String(describing: resolve))")
+        
         let center = UNUserNotificationCenter.current()
         center.getNotificationSettings { settings in
             DispatchQueue.main.async {
@@ -91,6 +99,8 @@ private extension RealUserPermissionsService {
     }
     
     func requestPushNotificationsPermission() {
+        log.verbose("+")
+        
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound]) { (isGranted, error) in
             DispatchQueue.main.async {
@@ -105,7 +115,11 @@ private extension RealUserPermissionsService {
 final class StubUserPermissionsService: UserPermissionsService {
     
     func resolveStatus(for permission: Permission) {
+        log.debug("permission = \(permission)")
+        
     }
     func request(permission: Permission) {
+        log.debug("permission = \(permission)")
+        
     }
 }

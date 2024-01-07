@@ -16,13 +16,14 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var systemEventsHandler: SystemEventsHandler?
     
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
+    func scene(_ scene: UIScene,
+               willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
-        log.debug("+")
+        log.debug("scene = \(scene), session = \(session), connectionOptions = \(connectionOptions)")
         
         let environment = AppEnvironment.bootstrap()
         let contentView = ContentView(viewModel:
-            ContentView.ViewModel(container: environment.container))
+                                        ContentView.ViewModel(container: environment.container))
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView: contentView)
@@ -36,19 +37,19 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        log.debug("+")
+        log.debug("scene = \(scene), URLContexts = \(URLContexts)")
         
         systemEventsHandler?.sceneOpenURLContexts(URLContexts)
     }
     
     func sceneDidBecomeActive(_ scene: UIScene) {
-        log.debug("+")
+        log.debug("scene = \(scene)")
         
         systemEventsHandler?.sceneDidBecomeActive()
     }
     
     func sceneWillResignActive(_ scene: UIScene) {
-        log.debug("+")
+        log.debug("scene = \(scene)")
         
         systemEventsHandler?.sceneWillResignActive()
     }

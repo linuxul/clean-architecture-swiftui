@@ -31,7 +31,7 @@ struct CoreDataStack: PersistentStore {
     init(directory: FileManager.SearchPathDirectory = .documentDirectory,
          domainMask: FileManager.SearchPathDomainMask = .userDomainMask,
          version vNumber: UInt) {
-        log.debug("+")
+        log.debug("directory = \(directory), domainMask = \(domainMask)")
         
         let version = Version(vNumber)
         container = NSPersistentContainer(name: version.modelName)
@@ -56,7 +56,7 @@ struct CoreDataStack: PersistentStore {
     
     // 요청된 엔티티의 개수를 가져옵니다.
     func count<T>(_ fetchRequest: NSFetchRequest<T>) -> AnyPublisher<Int, Error> {
-        log.debug("+")
+        log.debug("fetchRequest = \(fetchRequest)")
         
         return onStoreIsReady
             .flatMap { [weak container] in
@@ -75,7 +75,7 @@ struct CoreDataStack: PersistentStore {
     // 요청된 엔티티를 가져온 후, 지정된 매핑 함수를 사용해 변환합니다.
     func fetch<T, V>(_ fetchRequest: NSFetchRequest<T>,
                      map: @escaping (T) throws -> V?) -> AnyPublisher<LazyList<V>, Error> {
-        log.debug("+")
+        log.debug("fetchRequest = \(fetchRequest)")
         
         assert(Thread.isMainThread)
         let fetch = Future<LazyList<V>, Error> { [weak container] promise in
@@ -106,7 +106,7 @@ struct CoreDataStack: PersistentStore {
     
     // 지정된 데이터베이스 작업을 사용하여 저장소를 업데이트합니다.
     func update<Result>(_ operation: @escaping DBOperation<Result>) -> AnyPublisher<Result, Error> {
-        log.debug("+")
+        log.debug("operation = \(String(describing: operation))")
         
         let update = Future<Result, Error> { [weak bgQueue, weak container] promise in
             bgQueue?.async {
@@ -136,7 +136,7 @@ struct CoreDataStack: PersistentStore {
     
     // 저장소가 준비된 후 수행할 작업을 정의합니다.
     private var onStoreIsReady: AnyPublisher<Void, Error> {
-        log.debug("+")
+        log.verbose("+")
         
         return isStoreLoaded
             .filter { $0 }
@@ -170,7 +170,7 @@ extension CoreDataStack {
         // 지정된 디렉토리 및 도메인 마스크에 해당하는 데이터베이스 파일의 URL을 반환합니다.
         func dbFileURL(_ directory: FileManager.SearchPathDirectory,
                        _ domainMask: FileManager.SearchPathDomainMask) -> URL? {
-            log.debug("+")
+            log.debug("directory = \(directory), domainMask = \(domainMask)")
             
             return FileManager.default
                 .urls(for: directory, in: domainMask).first?

@@ -25,6 +25,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions
                      launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        log.debug("application = \(application), launchOptions = \(String(describing: launchOptions))")
         
         setXcgLoger()
         
@@ -32,13 +33,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        log.debug("+")
+        log.debug("application = \(application), deviceToken = \(deviceToken)")
         
         systemEventsHandler?.handlePushRegistration(result: .success(deviceToken))
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        log.debug("+")
+        log.debug("application = \(application), error = \(error)")
         
         systemEventsHandler?.handlePushRegistration(result: .failure(error))
     }
@@ -46,20 +47,20 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication,
                      didReceiveRemoteNotification userInfo: NotificationPayload,
                      fetchCompletionHandler completionHandler: @escaping FetchCompletion) {
-        log.debug("+")
+        log.debug("application = \(application), userInfo = \(userInfo)")
         
         systemEventsHandler?
             .appDidReceiveRemoteNotification(payload: userInfo, fetchCompletion: completionHandler)
     }
     
     private func systemEventsHandler(_ application: UIApplication) -> SystemEventsHandler? {
-        log.debug("+")
+        log.debug("application = \(application)")
         
         return sceneDelegate(application)?.systemEventsHandler
     }
     
     private func sceneDelegate(_ application: UIApplication) -> SceneDelegate? {
-        log.debug("+")
+        log.debug("application = \(application)")
         
         return application.windows
             .compactMap({ $0.windowScene?.delegate as? SceneDelegate })

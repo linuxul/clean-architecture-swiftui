@@ -18,7 +18,7 @@ enum DeepLink: Equatable {
     
     // URL을 사용하여 DeepLink 인스턴스를 생성하는 이니셜라이저입니다.
     init?(url: URL) {
-        log.debug("+")
+        log.debug("url = \(url)")
         
         // URL에서 URLComponents를 추출하고 호스트 및 쿼리 항목을 확인합니다.
         guard
@@ -50,14 +50,14 @@ struct RealDeepLinksHandler: DeepLinksHandler {
     
     // DIContainer를 사용하여 RealDeepLinksHandler를 초기화합니다.
     init(container: DIContainer) {
-        log.debug("+")
+        log.debug("container = \(container)")
         
         self.container = container
     }
     
     // 딥 링크를 처리하고 관련된 액션을 수행하는 메서드를 정의합니다.
     func open(deepLink: DeepLink) {
-        log.debug("+")
+        log.debug("deepLink = \(deepLink)")
         
         switch deepLink {
         case let .showCountryFlag(alpha3Code):

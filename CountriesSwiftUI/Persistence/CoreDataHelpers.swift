@@ -26,7 +26,7 @@ extension ManagedEntity where Self: NSManagedObject {
     
     // 지정된 컨텍스트에서 새로운 인스턴스를 삽입하고 반환합니다.
     static func insertNew(in context: NSManagedObjectContext) -> Self? {
-        log.debug("+")
+        log.debug("context = \(context)")
         
         return NSEntityDescription
             .insertNewObject(forEntityName: entityName, into: context) as? Self
@@ -34,7 +34,7 @@ extension ManagedEntity where Self: NSManagedObject {
     
     // 해당 엔티티의 새로운 FetchRequest를 생성합니다.
     static func newFetchRequest() -> NSFetchRequest<Self> {
-        log.debug("+")
+        log.verbose("+")
         
         return .init(entityName: entityName)
     }
@@ -46,7 +46,7 @@ extension NSManagedObjectContext {
     
     // 읽기 전용 컨텍스트로 설정하도록 NSManagedObjectContext를 구성합니다.
     func configureAsReadOnlyContext() {
-        log.debug("+")
+        log.verbose("+")
         
         automaticallyMergesChangesFromParent = true
         mergePolicy = NSRollbackMergePolicy
@@ -56,7 +56,7 @@ extension NSManagedObjectContext {
     
     // 업데이트 컨텍스트로 설정하도록 NSManagedObjectContext를 구성합니다.
     func configureAsUpdateContext() {
-        log.debug("+")
+        log.verbose("+")
         
         mergePolicy = NSOverwriteMergePolicy
         undoManager = nil

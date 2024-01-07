@@ -43,6 +43,8 @@ extension CountriesList {
         private var cancelBag = CancelBag()
         
         init(container: DIContainer, countries: Loadable<LazyList<Country>> = .notRequested) {
+            log.debug("container = \(container), countries = \(countries)")
+            
             self.container = container
             let appState = container.appState
             _routingState = .init(initialValue: appState.value.routing.countriesList)
@@ -66,6 +68,8 @@ extension CountriesList {
         // MARK: - Side Effects
         
         func reloadCountries() {
+            log.verbose("+")
+            
             container.services.countriesService
                 .load(countries: loadableSubject(\.countries),
                       search: countriesSearch.searchText,
@@ -73,6 +77,8 @@ extension CountriesList {
         }
         
         func requestPushPermission() {
+            log.verbose("+")
+            
             container.services.userPermissionsService
                 .request(permission: .pushNotifications)
         }
@@ -87,6 +93,8 @@ extension CountriesList {
         let viewModel: ViewModel
         
         func resolve(in environment: EnvironmentValues) -> some ViewModifier {
+            log.debug("environment = \(environment)")
+            
             viewModel.countriesSearch.locale = environment.locale
             return DummyViewModifier()
         }

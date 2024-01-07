@@ -14,7 +14,7 @@ struct SearchBar: UIViewRepresentable {
     @Binding var text: String
     
     func makeUIView(context: UIViewRepresentableContext<SearchBar>) -> UISearchBar {
-        log.debug("+")
+        log.debug("context = \(context)")
         
         let searchBar = UISearchBar(frame: .zero)
         searchBar.delegate = context.coordinator
@@ -22,13 +22,13 @@ struct SearchBar: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UISearchBar, context: UIViewRepresentableContext<SearchBar>) {
-        log.debug("+")
+        log.debug("uiView = \(uiView), context = \(context)")
         
         uiView.text = text
     }
     
     func makeCoordinator() -> SearchBar.Coordinator {
-        log.debug("+")
+        log.verbose("+")
         
         return Coordinator(text: $text)
     }
@@ -40,33 +40,33 @@ extension SearchBar {
         let text: Binding<String>
         
         init(text: Binding<String>) {
-            log.debug("+")
+            log.debug("text = \(text)")
             
             self.text = text
         }
         
         func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-            log.debug("+")
+            log.debug("searchBar = \(searchBar), searchText = \(searchText)")
             
             text.wrappedValue = searchText
         }
         
         func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
-            log.debug("+")
+            log.debug("searchBar = \(searchBar)")
             
             searchBar.setShowsCancelButton(true, animated: true)
             return true
         }
         
         func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
-            log.debug("+")
+            log.debug("searchBar = \(searchBar)")
             
             searchBar.setShowsCancelButton(false, animated: true)
             return true
         }
         
         func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-            log.debug("+")
+            log.debug("searchBar = \(searchBar)")
             
             searchBar.endEditing(true)
             searchBar.text = ""
